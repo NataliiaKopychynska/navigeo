@@ -1,11 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import type { AuthUser, LoginUser } from './authTypes'
-
-const http = axios.create({
-  baseURL: 'http://localhost:8888/api',
-  withCredentials: true,
-})
+import { http } from '../../lib/http'
 
 export const loginThunk = createAsyncThunk<
   AuthUser,
@@ -47,4 +43,23 @@ export const logoutThunk = createAsyncThunk<
   }
 })
 
-// export const meThunk = createAsyncThunk()
+export const meThunk = createAsyncThunk<
+  AuthUser,
+  void,
+  { rejectValue: string }
+>('auth/me', async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await http.get<AuthUser>('/me', { withCredentials: true })
+    return data
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        (error.response?.data as { message?: string } | undefined)?.message ||
+        error.message ||
+        'fetch user failed'
+
+      return rejectWithValue(message)
+    }
+    return rejectWithValue('fetch user failed')
+  }
+})

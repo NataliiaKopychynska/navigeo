@@ -1,5 +1,18 @@
 @import 'tailwindcss';
 
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #f97316 !important; /* оранжевий */
+  color: white !important;
+  border-radius: 9999px;
+}
+
+.react-datepicker__day--today {
+  background-color: #dcdbdb !important; /* світло-оранжевий */
+  color: #ffffff !important;
+  border-radius: 9999px;
+}
+
 /* @tailwind base; */
 /* @tailwind components; */
 /* @tailwind utilities; */

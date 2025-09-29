@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { AuthState, AuthUser } from './authTypes'
-import { loginThunk } from './authThunk'
+import { loginThunk, meThunk } from './authThunk'
 
 const initialState: AuthState = {
   user: null,
@@ -16,6 +16,7 @@ const authSlice = createSlice({
       state.user = null
       state.status = 'idle'
       state.error = null
+      localStorage.removeItem('user')
     },
     setUser(state, action: PayloadAction<AuthUser | null>) {
       state.user = action.payload
@@ -30,8 +31,21 @@ const authSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
         state.user = action.payload
+        localStorage.setItem('user', JSON.stringify(action.payload))
       })
       .addCase(loginThunk.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.payload ?? 'Login failed'
+      })
+      .addCase(meThunk.pending, (state) => {
+        state.status = 'loading'
+        state.error = null
+      })
+      .addCase(meThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.user = action.payload
+      })
+      .addCase(meThunk.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.payload ?? 'Login failed'
       })
