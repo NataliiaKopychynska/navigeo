@@ -45,7 +45,7 @@ function OrderHead({
   }
 
   return (
-    <thead className="bg-gray-100">
+    <thead>
       <tr className="grid grid-cols-6">
         <FilterInput
           search={filters.search}
@@ -56,6 +56,7 @@ function OrderHead({
           typeOrderSelect={typeOrderSelect}
           orderRef={orderRef}
           typeOrder={filters.typeOrder}
+          setFiltersFunction={setFiltersFunction}
         />
         <FilterStatusSelect
           status={filters.status}
@@ -65,8 +66,8 @@ function OrderHead({
           setFiltersFunction={setFiltersFunction}
         />
 
-        <th className="p-[8px] flex flex-col">
-          <h3 className="text-gray-600 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
+        <th className=" flex flex-col">
+          <h3 className="bg-gray-100 text-gray-600 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
             Data utworzenia
           </h3>
           <DatePicker
@@ -95,8 +96,8 @@ function OrderHead({
           />
         </th>
 
-        <th className="p-[8px] flex flex-col">
-          <h3 className="text-gray-600 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
+        <th className=" flex flex-col">
+          <h3 className="text-gray-600 bg-gray-100 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
             Przewidywana data z ośrodka
           </h3>
           <DatePicker
@@ -128,8 +129,8 @@ function OrderHead({
           />
         </th>
 
-        <th className="p-[8px] flex flex-col">
-          <h3 className="text-gray-600 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis ">
+        <th className=" flex flex-col">
+          <h3 className="text-gray-600 bg-gray-100 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis ">
             Termin realizacji
           </h3>
 

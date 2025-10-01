@@ -4,23 +4,23 @@ import { BsCalendar3 } from 'react-icons/bs'
 
 function Sidebar() {
   return (
-    <div className="w-[200px] ">
-      <NavLink to="setting" className="pl-[12px]">
+    <div className="w-[200px] h-screen  pl-[20px] pt-[20px] shadow">
+      <NavLink to="setting">
         <img
           src="/public/delair-tech.svg"
-          className="w-[160px] h-[80px]  justify-center pl-[20px]"
+          className="w-[160px] h-[40px]   mb-[20px]"
         />
       </NavLink>
       <NavLink
         to="orders"
-        className="flex flex-row gap-[8px] content-center  text-gray-700 mb-6 text-center pl-[20px]"
+        className="flex flex-row gap-[8px] content-center  text-gray-700 mb-6 text-center"
       >
         <GrList className="w-[20px] h-[20px] mt-[2px] content-center" />
         Zlecenia
       </NavLink>
       <NavLink
         to="trips"
-        className="flex flex-row gap-[8px] content-center  text-gray-700 mb-6 text-center pl-[20px]"
+        className="flex flex-row gap-[8px] content-center  text-gray-700 mb-6 text-center "
       >
         <BsCalendar3 className="w-[20px] h-[20px] mt-[2px] content-center" />
         Wyjazdy

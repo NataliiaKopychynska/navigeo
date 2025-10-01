@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import type { FiltersOrder, Order } from '../../type/type'
 import { fetchOrders } from '../../api/orders'
 // import { renderTyp } from './renderTyp'
@@ -6,7 +6,21 @@ import { fetchOrders } from '../../api/orders'
 import OrderRow from './OrderRow'
 import OrderHead from './OrderHead/OrderHead'
 
-function OrdersTable() {
+type OrdersTableType = {
+  setPage: React.Dispatch<React.SetStateAction<number>>
+  page: number
+  perPage: number
+  rows: Order[]
+  setRows: React.Dispatch<React.SetStateAction<Order[]>>
+}
+
+function OrdersTable({
+  setPage,
+  page,
+  perPage,
+  rows,
+  setRows,
+}: OrdersTableType) {
   const [typeOrderSelect, setTypeOrderSelect] = useState(false)
   const [typeStatusSelect, setTypeStatusSelect] = useState(false)
   const [filters, setFilters] = useState<FiltersOrder>({
@@ -17,10 +31,6 @@ function OrdersTable() {
     predictedDate: '',
     deadline: '',
   })
-  const [perPage, setPerPage] = useState(50)
-  const [page, setPage] = useState(1)
-
-  const [rows, setRows] = useState<Order[]>([])
 
   const orderRef = useRef<HTMLTableHeaderCellElement | null>(null)
   const statusRef = useRef<HTMLTableHeaderCellElement | null>(null)
@@ -79,34 +89,32 @@ function OrdersTable() {
   }, [filters, perPage])
 
   return (
-    <div className="ml-[20px]">
-      <table className=" relative table-auto">
-        <OrderHead
-          filters={filters}
-          orderRef={orderRef}
-          typeOrderSelect={typeOrderSelect}
-          setTypeOrderSelect={setTypeOrderSelect}
-          statusRef={statusRef}
-          typeStatusSelect={typeStatusSelect}
-          setTypeStatusSelect={setTypeStatusSelect}
-          setFiltersFunction={setFiltersFunction}
-        />
-        {rows ? (
-          <OrderRow rows={rows} />
-        ) : (
-          <tbody>
-            <tr className="grid grid-cols-6 border-b p-2">
-              <td className="text-gray-600 font-light">---</td>
-              <td className="text-gray-600 font-light">---</td>
-              <td className="text-gray-600 font-light">---</td>
-              <td className="text-gray-600 font-light">---</td>
-              <td className="text-gray-600 font-light">---</td>
-              <td className="text-gray-600 font-light">---</td>
-            </tr>
-          </tbody>
-        )}
-      </table>
-    </div>
+    <table className=" relative table-auto">
+      <OrderHead
+        filters={filters}
+        orderRef={orderRef}
+        typeOrderSelect={typeOrderSelect}
+        setTypeOrderSelect={setTypeOrderSelect}
+        statusRef={statusRef}
+        typeStatusSelect={typeStatusSelect}
+        setTypeStatusSelect={setTypeStatusSelect}
+        setFiltersFunction={setFiltersFunction}
+      />
+      {rows ? (
+        <OrderRow rows={rows} />
+      ) : (
+        <tbody>
+          <tr className="grid grid-cols-6 border-b p-2">
+            <td className="text-gray-600 font-light">---</td>
+            <td className="text-gray-600 font-light">---</td>
+            <td className="text-gray-600 font-light">---</td>
+            <td className="text-gray-600 font-light">---</td>
+            <td className="text-gray-600 font-light">---</td>
+            <td className="text-gray-600 font-light">---</td>
+          </tr>
+        </tbody>
+      )}
+    </table>
   )
 }
 

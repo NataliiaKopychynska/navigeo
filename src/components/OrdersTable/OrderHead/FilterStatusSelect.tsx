@@ -24,8 +24,8 @@ function FilterStatusSelect({
   statusRef,
 }: StatusFilterType) {
   return (
-    <th className="p-[8px] flex flex-col" ref={statusRef}>
-      <h3 className="text-gray-600 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
+    <th className=" flex flex-col" ref={statusRef}>
+      <h3 className="text-gray-600 bg-gray-100  text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
         Status
       </h3>
       <button

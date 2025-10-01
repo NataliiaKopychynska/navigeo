@@ -5,7 +5,7 @@ function Layouts() {
   return (
     <div className="flex flex-row">
       <Sidebar />
-      <main>
+      <main className="flex-1 m-[20px] mt-[28px]">
         <Outlet />
       </main>
     </div>
