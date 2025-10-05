@@ -1,24 +1,5 @@
 import { http } from '../lib/http'
 
-// export type ApiOrder = {
-//   id: number
-//   type: string
-//   status: string
-//   createdAt: string
-//   estimatedDecisionDate: string
-//   realizationDate: string
-//   orderAddress: { fullAddress: string }
-// }
-
-// export interface FiltersOrder {
-//   search: string
-//   typeOrder: string | null
-//   status: string | null
-//   createAt: string
-//   predictedDate: string
-//   deadline: string
-// }
-
 export async function fetchOrders(params: {
   page?: number
   per_page?: number
@@ -31,6 +12,16 @@ export async function fetchOrders(params: {
 }) {
   const { data } = await http.get('/orders', { params })
   return data
+}
+
+export async function createNewOrders(payload: any) {
+  try {
+    const response = await http.post('/orders', payload)
+    return response.data
+  } catch (error: any) {
+    console.error('Order dont post', error)
+    throw error
+  }
 }
 
 // Order collection

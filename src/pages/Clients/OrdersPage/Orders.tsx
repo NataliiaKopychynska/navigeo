@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import AddOrders from '../../components/AddOrders'
-import OrdersTable from '../../components/OrdersTable/OrdersTable'
-import type { Order } from '../../type/type'
+import AddOrders from '../../../components/AddOrders'
+import OrdersTable from '../../../components/OrdersTable/OrdersTable'
+import type { Order } from '../../../type/type'
 import { FaArrowRight } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 

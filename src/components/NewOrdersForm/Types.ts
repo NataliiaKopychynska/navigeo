@@ -23,4 +23,5 @@ export type FormValues = {
   postName: string
   houseNumber: string
   additionalInformation: string
+  area: string
 }

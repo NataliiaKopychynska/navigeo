@@ -48,6 +48,7 @@ const authSlice = createSlice({
       .addCase(meThunk.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.payload ?? 'Login failed'
+        state.user = null
       })
   },
 })

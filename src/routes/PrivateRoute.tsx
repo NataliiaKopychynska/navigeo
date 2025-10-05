@@ -10,6 +10,20 @@ function PrivateRoute() {
     return <Navigate to="/login" replace state={{ from: location }} />
   }
 
+  if (
+    user.type !== 'super_admin' &&
+    location.pathname.includes('/layout/admin')
+  ) {
+    return <Navigate to="/layout/client/orders" replace />
+  }
+
+  if (
+    user.type === 'super_admin' &&
+    location.pathname.includes('/layout/client')
+  ) {
+    return <Navigate to="/layout/admin/orders" replace />
+  }
+
   return <Outlet />
 }
 
