@@ -1,6 +1,7 @@
 import type { FiltersOrder } from 'type/type'
 
 type FilterInputProps = {
+  tittle: string
   setFiltersFunction: <K extends keyof FiltersOrder>(
     key: K,
     value: FiltersOrder[K],
@@ -8,11 +9,11 @@ type FilterInputProps = {
   search: string
 }
 
-function FilterInput({ setFiltersFunction, search }: FilterInputProps) {
+function FilterInput({ setFiltersFunction, search, tittle }: FilterInputProps) {
   return (
     <th className=" flex flex-col">
       <h3 className="text-gray-600 bg-gray-100 text-lg font-normal p-[8px] flex flex-col text-left h-[40px] overflow-hidden text-ellipsis">
-        Zlecenie
+        {tittle}
       </h3>
       <input
         type="text"

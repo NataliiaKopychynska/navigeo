@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import AddOrders from '../../../components/AddOrders'
-import OrdersTable from '../../../components/OrdersTable/OrdersTable'
+import OrdersTable from '../../../components/Clients/OrdersTable/OrdersTable'
 import type { Order } from '../../../type/type'
 import { FaArrowRight } from 'react-icons/fa6'
-import { Link } from 'react-router-dom'
+import AddButton from '../../../components/atoms/AddButton'
+// import { Link } from 'react-router-dom'
 
 function Orders() {
   const [perPage, setPerPage] = useState(50)
@@ -18,7 +18,7 @@ function Orders() {
       </div>
       <div className="flex justify-between mt-[20px] mb-[16px]">
         <h1 className="text-2xl font-medium text-gray-900">Twoje zlecenia</h1>
-        <AddOrders />
+        <AddButton address="/layout/new" tittle="Utwórz nowe zlecenie" />
       </div>
       <OrdersTable
         perPage={perPage}

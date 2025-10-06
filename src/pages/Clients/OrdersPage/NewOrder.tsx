@@ -1,4 +1,4 @@
-import OrdersForm from '../../../components/NewOrdersForm/OrdersForm'
+import OrdersForm from '../../../components/Clients/NewOrdersForm/OrdersForm'
 import { GoArrowLeft } from 'react-icons/go'
 import { Link } from 'react-router-dom'
 

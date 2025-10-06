@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import type { FiltersOrder, Order } from '../../type/type'
-import { fetchOrders } from '../../api/orders'
-// import { renderTyp } from './renderTyp'
-// import { renderStatus } from './renderStatus'
+import type { FiltersOrder, Order } from '../../../type/type'
+import { fetchOrders } from '../../../api/client/orders'
 import OrderRow from './OrderRow'
 import OrderHead from './OrderHead/OrderHead'
 
@@ -82,7 +80,7 @@ function OrdersTable({
       }
     }
     load()
-  }, [page, perPage, filters])
+  }, [page, perPage, filters, setRows])
 
   useEffect(() => {
     setPage(1)

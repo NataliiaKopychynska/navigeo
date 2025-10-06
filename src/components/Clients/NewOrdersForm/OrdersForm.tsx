@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
 import type { FormValues } from './Types'
 // import AccessibleSelect from './AccessibleSelect'
-import { optionsTypeOrder } from '../../lib/options'
+import { optionsTypeOrder } from '../../../lib/options'
 import { useRef, useState } from 'react'
-import SelectInput from '../atoms/SelectInput'
-import Input from '../atoms/Input'
-import TextArias from '../atoms/TextArias'
-import { createNewOrders } from '../../api/orders'
+import SelectInput from '../../atoms/SelectInput'
+import Input from '../../atoms/Input'
+import TextArias from '../../atoms/TextArias'
+import { createNewOrders } from '../../../api/client/orders'
 
 function OrdersForm() {
   const { register, handleSubmit } = useForm<FormValues>()

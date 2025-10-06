@@ -1,12 +1,10 @@
-import type { FiltersOrder } from '../../../type/type'
+import type { FiltersOrder } from '../../../../type/type'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-
 // import { renderTyp } from '../renderTyp'
 // import { renderStatus } from '../renderStatus'
-
 import React, { RefObject } from 'react'
-import FilterInput from './FilterInput'
+import FilterInput from '../../../atoms/FilterInput'
 import FilterTypeSelect from './FilterTypeSelect'
 import FilterStatusSelect from './FilterStatusSelect'
 
@@ -48,6 +46,7 @@ function OrderHead({
     <thead>
       <tr className="grid grid-cols-6">
         <FilterInput
+          tittle="Zlecenie"
           search={filters.search}
           setFiltersFunction={setFiltersFunction}
         />
