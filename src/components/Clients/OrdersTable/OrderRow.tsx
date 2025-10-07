@@ -1,6 +1,13 @@
 import React from 'react'
+import { renderTyp } from './renderTyp'
+import { renderStatus } from './renderStatus'
+import type { Order } from 'type/type'
 
-function OrderRow({ rows }) {
+type Props = {
+  rows: Order[]
+}
+
+function OrderRow({ rows }: Props) {
   return (
     <tbody>
       {rows.map((order) => (

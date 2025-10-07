@@ -18,7 +18,7 @@ function Orders() {
       </div>
       <div className="flex justify-between mt-[20px] mb-[16px]">
         <h1 className="text-2xl font-medium text-gray-900">Twoje zlecenia</h1>
-        <AddButton address="/layout/new" tittle="Utwórz nowe zlecenie" />
+        <AddButton address="/layout/client/new" tittle="Utwórz nowe zlecenie" />
       </div>
       <OrdersTable
         perPage={perPage}

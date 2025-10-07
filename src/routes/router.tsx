@@ -1,8 +1,8 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import PublicRoute from './PublicRoute'
 import Login from '../pages/Login'
 import PrivateRoute from './PrivateRoute'
-import Layouts from '../layouts/Layouts'
+import Layouts from '../components/layouts/Layouts'
 import NotFound from '../pages/NotFound'
 import ChangePassword from '../pages/ChangePassword'
 import UserSetting from '../pages/Clients/UserSetting'
@@ -14,6 +14,7 @@ import AdminOrders from '../pages/admin/AdminOrders'
 import AdminClients from '../pages/admin/AdminClients'
 import AdminTrips from '../pages/admin/AdminTrips'
 import AdminSetting from '../pages/admin/AdminSetting'
+import AdminClientsAdd from '../pages/admin/AdminClientsAdd'
 
 export const router = createBrowserRouter([
   {
@@ -41,36 +42,58 @@ export const router = createBrowserRouter([
         element: <Layouts />,
         children: [
           {
-            path: 'client/setting',
-            element: <UserSetting />,
+            path: 'client',
+            children: [
+              {
+                index: true,
+                element: <Navigate to="orders" replace />,
+              },
+              {
+                path: 'setting',
+                element: <UserSetting />,
+              },
+              {
+                path: 'orders',
+                element: <Orders />,
+              },
+              {
+                path: 'new',
+                element: <NewOrder />,
+              },
+              {
+                path: 'trips',
+                element: <Trips />,
+              },
+            ],
           },
           {
-            path: 'client/orders',
-            element: <Orders />,
-          },
-          {
-            path: 'client/new',
-            element: <NewOrder />,
-          },
-          {
-            path: 'client/trips',
-            element: <Trips />,
-          },
-          {
-            path: 'admin/orders',
-            element: <AdminOrders />,
-          },
-          {
-            path: 'admin/clients',
-            element: <AdminClients />,
-          },
-          {
-            path: 'admin/trips',
-            element: <AdminTrips />,
-          },
-          {
-            path: 'admin/setting',
-            element: <AdminSetting />,
+            path: 'admin',
+            children: [
+              {
+                index: true,
+                element: <Navigate to="orders" replace />,
+              },
+              {
+                path: 'orders',
+                element: <AdminOrders />,
+              },
+              {
+                path: 'clients',
+                element: <AdminClients />,
+              },
+              {
+                path: 'addClient',
+                element: <AdminClientsAdd />,
+              },
+              {
+                path: 'trips',
+                element: <AdminTrips />,
+              },
+              {
+                path: 'setting',
+                element: <AdminSetting />,
+              },
+            ],
           },
         ],
       },

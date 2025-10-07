@@ -3,7 +3,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 // import { renderTyp } from '../renderTyp'
 // import { renderStatus } from '../renderStatus'
-import React, { RefObject } from 'react'
+import React from 'react'
+import type { RefObject } from 'react'
 import FilterInput from '../../../atoms/FilterInput'
 import FilterTypeSelect from './FilterTypeSelect'
 import FilterStatusSelect from './FilterStatusSelect'
@@ -32,21 +33,23 @@ function OrderHead({
   setFiltersFunction,
   filters,
 }: OrderHeadProps) {
-  const isSameDay = (date1: Date, date2: Date | string | null) => {
-    if (!date2) return false
-    const d2 = typeof date2 === 'string' ? new Date(date2) : date2
-    return (
-      date1.getFullYear() === d2.getFullYear() &&
-      date1.getMonth() === d2.getMonth() &&
-      date1.getDate() === d2.getDate()
-    )
-  }
+  // helper kept if needed later; currently unused
+  // const isSameDay = (date1: Date, date2: Date | string | null) => {
+  //   if (!date2) return false
+  //   const d2 = typeof date2 === 'string' ? new Date(date2) : date2
+  //   return (
+  //     date1.getFullYear() === d2.getFullYear() &&
+  //     date1.getMonth() === d2.getMonth() &&
+  //     date1.getDate() === d2.getDate()
+  //   )
+  // }
 
   return (
     <thead>
       <tr className="grid grid-cols-6">
         <FilterInput
           tittle="Zlecenie"
+          name={'search'}
           search={filters.search}
           setFiltersFunction={setFiltersFunction}
         />

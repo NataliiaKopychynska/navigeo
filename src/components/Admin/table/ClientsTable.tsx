@@ -2,6 +2,7 @@ import { fetchClients } from '../../../api/admin/clients'
 import React, { useEffect, useRef, useState } from 'react'
 import type { Clients, ClientsFilters } from 'type/typeAdmin'
 import ClientsHead from './ClientsHead'
+import ClientRow from './ClientRow'
 
 type OrdersTableType = {
   setPage: React.Dispatch<React.SetStateAction<number>>
@@ -21,7 +22,7 @@ function ClientsTable({
   const [selectTypeIsOpen, setSelectTypeIsOpen] = useState(false)
   const [filters, setFilters] = useState<ClientsFilters>({
     name: '',
-    type: '',
+    type: null,
     phone: '',
     mail: '',
     address: '',
@@ -33,6 +34,7 @@ function ClientsTable({
     value: ClientsFilters[K],
   ) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
+    setPage(1)
   }
 
   useEffect(() => {
@@ -68,7 +70,7 @@ function ClientsTable({
   }, [page, perPage, filters, setRows])
 
   return (
-    <table className=" relative table-auto">
+    <table className=" relative table-auto rounded-[10px] overflow-hidden">
       <ClientsHead
         typeClientRef={typeClientRef}
         selectTypeIsOpen={selectTypeIsOpen}
@@ -76,6 +78,27 @@ function ClientsTable({
         setFiltersFunction={setFiltersFunction}
         filters={filters}
       />
+      {rows.length > 0 ? (
+        <ClientRow rows={rows} />
+      ) : (
+        <tbody>
+          <tr className="grid grid-cols-5 border-b  border-gray-300 ">
+            <td className="text-gray-600 p-2 border-r border-gray-300 font-light">
+              ---
+            </td>
+            <td className="text-gray-600 p-2 border-r border-gray-300 font-light">
+              ---
+            </td>
+            <td className="text-gray-600 p-2 border-r border-gray-300 font-light">
+              ---
+            </td>
+            <td className="text-gray-600 p-2 border-r border-gray-300 font-light">
+              ---
+            </td>
+            <td className="text-gray-600 p-2 font-light">---</td>
+          </tr>
+        </tbody>
+      )}
     </table>
   )
 }

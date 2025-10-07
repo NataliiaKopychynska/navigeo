@@ -16,7 +16,7 @@ const authSlice = createSlice({
       state.user = null
       state.status = 'idle'
       state.error = null
-      localStorage.removeItem('user')
+      // localStorage.removeItem('user')
     },
     setUser(state, action: PayloadAction<AuthUser | null>) {
       state.user = action.payload
@@ -31,7 +31,7 @@ const authSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
         state.user = action.payload
-        localStorage.setItem('user', JSON.stringify(action.payload))
+        // localStorage.setItem('user', JSON.stringify(action.payload))
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.status = 'failed'

@@ -42,3 +42,14 @@ export const optionsTypeOrder = [
     label: 'Inwentaryzacja',
   },
 ]
+
+export const optionsTypeClient = [
+  {
+    value: 'business_entity',
+    label: 'B2B',
+  },
+  {
+    value: 'individual',
+    label: 'B2C',
+  },
+] as const

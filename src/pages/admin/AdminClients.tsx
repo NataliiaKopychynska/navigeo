@@ -18,7 +18,10 @@ function AdminClients() {
       </div>
       <div className="flex justify-between mt-[20px] mb-[16px]">
         <h1 className="text-2xl font-medium text-gray-900">Lista klientów</h1>
-        <AddButton address="admin/add-client" tittle="Dodaj nowego klienta" />
+        <AddButton
+          address="/layout/admin/addClient"
+          tittle="Dodaj nowego klienta"
+        />
       </div>
       <ClientsTable
         perPage={perPage}

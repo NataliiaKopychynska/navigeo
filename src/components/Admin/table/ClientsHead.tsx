@@ -16,32 +16,49 @@ type Props = {
 
 function ClientsHead({
   typeClientRef,
-  selectTypeIsOpen,
-  setSelectTypeIsOpen,
+  // selectTypeIsOpen,
+  // setSelectTypeIsOpen,
   setFiltersFunction,
   filters,
-}) {
+}: Props) {
   return (
     <thead>
-      <tr className="grid grid-cols-6">
+      <tr className="grid grid-cols-5">
         <FilterInput
           tittle="Nazwa"
+          name={'name'}
           search={filters.name}
           setFiltersFunction={setFiltersFunction}
         />
-        <FilterSelectInput />
+
+        <FilterSelectInput
+          options={[
+            { value: 'B2B', label: 'B2B' },
+            { value: 'B2C', label: 'B2C' },
+          ]}
+          selected={filters.type}
+          setSelected={(value: 'B2B' | 'B2C') =>
+            setFiltersFunction('type', value)
+          }
+          wrapperRef={typeClientRef}
+          inputLabel="Typ konta"
+        />
+        {/* { value: string; label: string }[] */}
         <FilterInput
           tittle="Telefon"
+          name={'phone'}
           search={filters.phone}
           setFiltersFunction={setFiltersFunction}
         />
         <FilterInput
           tittle="E-mail"
+          name={'mail'}
           search={filters.mail}
           setFiltersFunction={setFiltersFunction}
         />
         <FilterInput
           tittle="Adres"
+          name={'address'}
           search={filters.address}
           setFiltersFunction={setFiltersFunction}
         />

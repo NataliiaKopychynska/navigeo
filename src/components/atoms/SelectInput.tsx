@@ -34,7 +34,7 @@ function SelectInput({
 
   return (
     <div className="flex flex-col">
-      <h3 className="text-gray-800 text-ml font-normal pl-[8px] pb-[4px]">
+      <h3 className="text-gray-800 text-[14px] font-normal pl-[8px] pb-[4px]">
         {inputLabel}
       </h3>
       <div

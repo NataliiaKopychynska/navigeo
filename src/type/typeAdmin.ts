@@ -9,7 +9,7 @@ export type Clients = {
 
 export type ClientsFilters = {
   name: string
-  type: string | null
+  type: 'B2B' | 'B2C' | null
   phone: string
   mail: string
   address: string

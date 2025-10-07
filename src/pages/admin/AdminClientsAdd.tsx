@@ -1,24 +1,23 @@
-import OrdersForm from '../../../components/Clients/NewOrdersForm/OrdersForm'
+import AddClientForm from '../../components/Admin/AddClient/AddClientForm'
 import { GoArrowLeft } from 'react-icons/go'
 import { Link } from 'react-router-dom'
 
-function NewOrder() {
+function AdminClientsAdd() {
   return (
     <div>
       <div>
         <Link
-          to="/layout/client/orders"
+          to="/layout/admin/clients"
           className="flex gap-[16px] items-center"
         >
           <GoArrowLeft className="w-[24px] h-[24px] p-[2px] shadow-2xl border-1 rounded-[4px] border-gray-300 hover:bg-gray-50" />
-          <h1 className="text-2xl font-medium text-gray-900">
-            Tworzenie nowego zlecenia
-          </h1>
+          <h1 className="text-2xl font-medium text-gray-900">Nowy klient</h1>
         </Link>
       </div>
-      <OrdersForm />
+      <AddClientForm />
+      {/* <OrdersForm /> */}
     </div>
   )
 }
 
-export default NewOrder
+export default AdminClientsAdd

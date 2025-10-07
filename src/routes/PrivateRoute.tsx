@@ -14,14 +14,14 @@ function PrivateRoute() {
     user.type !== 'super_admin' &&
     location.pathname.includes('/layout/admin')
   ) {
-    return <Navigate to="/layout/client/orders" replace />
+    return <Navigate to="/layout/client" replace />
   }
 
   if (
     user.type === 'super_admin' &&
     location.pathname.includes('/layout/client')
   ) {
-    return <Navigate to="/layout/admin/orders" replace />
+    return <Navigate to="/layout/admin" replace />
   }
 
   return <Outlet />

@@ -11,7 +11,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
 })
-
 // import { RouterProvider } from 'react-router-dom'
 // import { router } from './routes/router'
 import App from './App'
