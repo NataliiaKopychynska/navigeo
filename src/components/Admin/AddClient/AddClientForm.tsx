@@ -4,14 +4,26 @@ import type { InternalClientCreateRequest } from './Types'
 import SelectInput from '../../atoms/SelectInput'
 import { optionsTypeClient } from '../../../lib/options'
 import Input from '../../atoms/Input'
+import CheckButton from '../../atoms/CheckButton'
+import Button from '../../atoms/Button'
+import ClientAddressFields from './ClientAddressFields'
+import { addClient } from '../../../api/admin/clients'
+import { useNavigate } from 'react-router-dom'
 
 function AddClientForm() {
-  const { register, handleSubmit } = useForm<InternalClientCreateRequest>()
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<InternalClientCreateRequest>({
+    mode: 'onChange',
+  })
   const [selectedType, setSelectedType] = useState<string | null>(null)
   const wrapperRefType = useRef<HTMLDivElement | null>(null)
   const [sameInvoiceAddress, setSameInvoiceAddress] = useState(true)
 
-  const onSubmit = (data: InternalClientCreateRequest) => {
+  const onSubmit = async (data: InternalClientCreateRequest) => {
     if (sameInvoiceAddress) {
       data.invoiceAddress = {
         city: data.city,
@@ -20,11 +32,21 @@ function AddClientForm() {
         streetName: data.streetName,
         houseNumber: data.houseNumber,
         streetNumber: data.streetNumber,
+        country: 'PL',
         phoneNumber: data.phoneNumber,
         email: data.email,
       }
     }
-    console.log('Form data', data)
+
+    try {
+      const response = await addClient(data)
+      navigate('/clients')
+      return response
+      // console.log("create new client");
+    } catch (error) {
+      console.log('error create new client in addClient request', error)
+    }
+    // console.log('Form data', data)
   }
 
   return (
@@ -40,7 +62,6 @@ function AddClientForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-[16px] w-[456px]"
       >
-        {/* Тип аккаунта */}
         <SelectInput
           inputLabel="Typ konta"
           options={
@@ -50,57 +71,81 @@ function AddClientForm() {
           setSelected={setSelectedType}
           wrapperRef={wrapperRefType}
         />
-
-        {/* Основні дані */}
         <Input
           inputLabel="Nazwa klienta"
           register={register('fullName')}
           type="text"
           placeholder="Nazwa klienta"
+          required={true}
         />
         <Input
           inputLabel="Cennik inwentaryzacja"
           register={register('inventoryPriceListId')}
           type="text"
           placeholder="ID cennika inwentaryzacja"
+          required={true}
         />
         <Input
           inputLabel="Cennik mapa do celów"
           register={register('designPurposesMapPriceListId')}
           type="text"
           placeholder="ID cennika mapa"
+          required={true}
         />
         <Input
           inputLabel="Termin płatności (dni)"
           register={register('paymentDateOffset')}
           type="number"
           placeholder="Termin płatności"
+          required={true}
         />
         <Input
           inputLabel="NIP"
           register={register('nip')}
           type="text"
           placeholder="NIP"
+          required={true}
         />
         <Input
           inputLabel="Email"
           register={register('email')}
           type="email"
           placeholder="Adres e-mail"
+          required={true}
         />
         <Input
           inputLabel="Numer telefonu"
           register={register('phoneNumber')}
           type="text"
           placeholder="Numer telefonu"
+          required={true}
         />
 
-        {/* Адреса клієнта */}
-        <Input
+        <ClientAddressFields register={register} />
+        <CheckButton
+          checked={sameInvoiceAddress}
+          onChange={() => setSameInvoiceAddress(!sameInvoiceAddress)}
+          inputLabel="Dane do faktury takie same jak dane klienta"
+        />
+        {!sameInvoiceAddress && <ClientAddressFields register={register} />}
+        <Button type="submit" disabled={!isValid} tittle="Dodaj klienta" />
+      </form>
+    </div>
+  )
+}
+
+export default AddClientForm
+
+{
+  /* Адреса клієнта */
+}
+{
+  /* <Input
           inputLabel="Miejscowość"
           register={register('city')}
           type="text"
           placeholder="Miejscowość"
+          required={true}
         />
         <div className="flex w-full justify-between gap-[16px]">
           <Input
@@ -108,12 +153,14 @@ function AddClientForm() {
             register={register('postCode')}
             type="text"
             placeholder="Kod pocztowy"
+            required={true}
           />
           <Input
             inputLabel="Poczta"
             register={register('postName')}
             type="text"
             placeholder="Poczta"
+            required={true}
           />
         </div>
         <Input
@@ -121,6 +168,7 @@ function AddClientForm() {
           register={register('streetName')}
           type="text"
           placeholder="Ulica"
+          required={true}
         />
         <div className="flex w-full justify-between gap-[16px]">
           <Input
@@ -128,83 +176,72 @@ function AddClientForm() {
             register={register('houseNumber')}
             type="text"
             placeholder="Numer domu"
+            required={true}
           />
           <Input
             inputLabel="Numer mieszkania"
             register={register('streetNumber')}
             type="text"
             placeholder="Numer mieszkania"
+            required={true}
           />
-        </div>
-
-        {/* Чекбокс для адреси до фактури */}
-        <div className="flex items-center gap-2 mt-2">
-          <input
-            type="checkbox"
-            checked={sameInvoiceAddress}
-            onChange={() => setSameInvoiceAddress(!sameInvoiceAddress)}
-          />
-          <label className="text-gray-700 text-[14px]">
-            Dane do faktury takie same jak dane klienta
-          </label>
-        </div>
-
-        {/* Адреса до фактури */}
-        {!sameInvoiceAddress && (
-          <div className="flex flex-col gap-[12px] mt-2 border-t pt-2">
-            <h4 className="text-gray-800 text-[14px]">Adres do faktury</h4>
-            <Input
-              inputLabel="Miejscowość"
-              register={register('invoiceAddress.city')}
-              type="text"
-              placeholder="Miejscowość"
-            />
-            <div className="flex w-full justify-between gap-[16px]">
-              <Input
-                inputLabel="Kod pocztowy"
-                register={register('invoiceAddress.postCode')}
-                type="text"
-                placeholder="Kod pocztowy"
-              />
-              <Input
-                inputLabel="Poczta"
-                register={register('invoiceAddress.postName')}
-                type="text"
-                placeholder="Poczta"
-              />
-            </div>
-            <Input
-              inputLabel="Ulica"
-              register={register('invoiceAddress.streetName')}
-              type="text"
-              placeholder="Ulica"
-            />
-            <div className="flex w-full justify-between gap-[16px]">
-              <Input
-                inputLabel="Numer domu"
-                register={register('invoiceAddress.houseNumber')}
-                type="text"
-                placeholder="Numer domu"
-              />
-              <Input
-                inputLabel="Numer mieszkania"
-                register={register('invoiceAddress.streetNumber')}
-                type="text"
-                placeholder="Numer mieszkania"
-              />
-            </div>
-          </div>
-        )}
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded"
-        >
-          Dodaj klienta
-        </button>
-      </form>
-    </div>
-  )
+        </div> */
 }
 
-export default AddClientForm
+/* Адреса до фактури */
+// {
+//   !sameInvoiceAddress && (
+// <div className="flex flex-col gap-[12px] mt-2 border-t border-gray-300 pt-4">
+//   <h3 className="text-gray-800 text-[16px] pb-[4px]">
+//     Adres do faktury
+//   </h3>
+
+//   <Input
+//     inputLabel="Miejscowość"
+//     register={register('invoiceAddress.city')}
+//     type="text"
+//     placeholder="Miejscowość"
+//     required={true}
+//   />
+//   <div className="flex w-full justify-between gap-[16px]">
+//     <Input
+//       inputLabel="Kod pocztowy"
+//       register={register('invoiceAddress.postCode')}
+//       type="text"
+//       placeholder="Kod pocztowy"
+//       required={true}
+//     />
+//     <Input
+//       inputLabel="Poczta"
+//       register={register('invoiceAddress.postName')}
+//       type="text"
+//       placeholder="Poczta"
+//       required={true}
+//     />
+//   </div>
+//   <Input
+//     inputLabel="Ulica"
+//     register={register('invoiceAddress.streetName')}
+//     type="text"
+//     placeholder="Ulica"
+//     required={true}
+//   />
+//   <div className="flex w-full justify-between gap-[16px]">
+//     <Input
+//       inputLabel="Numer domu"
+//       register={register('invoiceAddress.houseNumber')}
+//       type="text"
+//       placeholder="Numer domu"
+//       required={true}
+//     />
+//     <Input
+//       inputLabel="Numer mieszkania"
+//       register={register('invoiceAddress.streetNumber')}
+//       type="text"
+//       placeholder="Numer mieszkania"
+//       required={true}
+//     />
+//   </div>
+// </div>
+//   )
+// }

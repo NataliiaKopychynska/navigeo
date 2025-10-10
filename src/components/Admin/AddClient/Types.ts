@@ -1,4 +1,4 @@
-export type FormValues = {}
+export type FormValues = object
 
 export type InvoiceAddress = {
   id?: string
@@ -20,13 +20,21 @@ export type InvoiceAddress = {
 }
 
 export type InternalClientCreateRequest = {
-  legalSubject: 'business_entity' | 'individual' // залежно від того, що дозволяє API
+  legalSubject: 'business_entity' | 'individual'
   paymentDateOffset: number
   wfirmaCompanyId?: number
-  designPurposesMapPriceListId?: string | null
-  inventoryPriceListId?: string | null
+  designPurposesMapPriceListId?: string | null | Record<string, never>
+  inventoryPriceListId?: string | null | Record<string, never>
   fullName: string
   email: string
   nip: string
+  // Top-level client address and contact fields used by the form
+  city: string
+  postCode: string
+  postName: string
+  streetName: string
+  houseNumber: string
+  streetNumber: string
+  phoneNumber: string
   invoiceAddress: InvoiceAddress
 }
