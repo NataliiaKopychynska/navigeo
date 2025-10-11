@@ -8,10 +8,11 @@ import { MdOutlineEmail } from 'react-icons/md'
 import { FiLock } from 'react-icons/fi'
 import { FaRegEye } from 'react-icons/fa6'
 import { FaRegEyeSlash } from 'react-icons/fa6'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
@@ -19,8 +20,11 @@ function Login() {
     formState: { errors },
   } = useForm<LoginUser>()
 
-  const onSubmit = (data: LoginUser) => {
-    dispatch(loginThunk(data))
+  const onSubmit = async (data: LoginUser) => {
+    const result = await dispatch(loginThunk(data))
+    if (loginThunk.fulfilled.match(result)) {
+      navigate('/layout')
+    }
   }
 
   return (

@@ -1,7 +1,9 @@
+// import { UserData } from './../../lib/pageType'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import type { AuthUser, LoginUser } from './authTypes'
 import { http } from '../../lib/http'
+// import type { ChangeMainData, UserData } from 'lib/pageType'
 
 export const loginThunk = createAsyncThunk<
   AuthUser,

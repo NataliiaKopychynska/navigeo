@@ -12,9 +12,11 @@ import AdminPrices from '../../pages/admin/Setting/AdminPrices'
 import AdminSurgery from '../../pages/admin/Setting/AdminSurgery'
 import AdminEquipment from '../../pages/admin/Setting/AdminEquipment'
 import { Navigate } from 'react-router-dom'
+import AdminPassword from '../../pages/admin/Setting/AdminPassword'
 
 export const adminSettingRoutes = [
   { path: 'account-details', element: <AdminAccountDetails /> },
+  { path: 'password', element: <AdminPassword /> },
   { path: 'users', element: <AdminUsers /> },
   { path: 'admin-accounts', element: <AdminAccounts /> },
   { path: 'cars', element: <AdminCars /> },

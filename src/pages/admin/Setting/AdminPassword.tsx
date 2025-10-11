@@ -1,27 +1,21 @@
-import type { ChangeMainData, MainDataInputs } from '../../../lib/pageType'
+import type { RepeatNewPassword } from 'lib/pageType'
 import { useForm } from 'react-hook-form'
-import { FaArrowRight } from 'react-icons/fa6'
-import { changeMainDataThunk } from '../../../redux/auth/meThunk'
+import { useDispatch } from 'react-redux'
+import { repeatNewPassword } from '../../../redux/auth/meThunk'
+import type { AppDispatch } from '../../../redux/store'
 import Input from '../../../components/atoms/Input'
 import ButtonMedium from '../../../components/atoms/ButtonMedium'
-import { useDispatch } from 'react-redux'
-import type { AppDispatch } from '../../../redux/store'
+import { FaArrowRight } from 'react-icons/fa6'
 
-function AdminAccountDetails() {
+function AdminPassword() {
   const dispatch = useDispatch<AppDispatch>()
-  const { register, handleSubmit, reset } = useForm<MainDataInputs>()
-
-  const onSubmit = async (data: MainDataInputs) => {
-    const replaceFormData: ChangeMainData = {
-      fullName: `${data.name},${data.sureName}`,
-      email: data.mail,
-    }
-
+  const { register, handleSubmit, reset } = useForm<RepeatNewPassword>()
+  const onSubmit = async (data: RepeatNewPassword) => {
     try {
-      const response = await dispatch(changeMainDataThunk(replaceFormData))
+      const response = await dispatch(repeatNewPassword(data))
       return response
     } catch (error) {
-      console.error('error update user data', error)
+      console.log('error repeat password', error)
     } finally {
       reset()
     }
@@ -34,7 +28,7 @@ function AdminAccountDetails() {
         <FaArrowRight className="fill-gray-600 w-[8px]" />
         <p className="text-orange-300 text-[14px]">Ustawienia</p>
         <FaArrowRight className="fill-gray-600 w-[8px]" />
-        <p className="text-gray-600 text-[14px]">Dane konta</p>
+        <p className="text-gray-600 text-[14px]">Zmiana hasła</p>
       </div>
       <h1 className="text-2xl font-medium text-gray-900 pt-[24px] mb-[24px]">
         Dane konta
@@ -42,23 +36,23 @@ function AdminAccountDetails() {
       <form onSubmit={handleSubmit(onSubmit)} className=" w-[456px]">
         <div className="flex flex-col gap-[16px] pb-[24px] mb-[32px] border-b-[1px] border-b-gray-300">
           <Input
-            inputLabel="Imię"
-            register={register('name')}
+            inputLabel="Aktualne hasło"
+            register={register('currentPassword')}
             type="text"
             placeholder=""
             required={true}
           />
           <Input
-            inputLabel="Nazwisko"
-            register={register('sureName')}
+            inputLabel="Nowe hasło"
+            register={register('newPassword')}
             type="text"
             placeholder=""
             required={true}
           />
           <Input
-            inputLabel="Adres e-mail"
-            register={register('mail')}
-            type="email"
+            inputLabel="Powtórz nowe hasło"
+            register={register('repeatNewPassword')}
+            type="text"
             placeholder=""
             required={true}
           />
@@ -69,4 +63,4 @@ function AdminAccountDetails() {
   )
 }
 
-export default AdminAccountDetails
+export default AdminPassword
