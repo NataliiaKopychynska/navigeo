@@ -11,7 +11,8 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authReducer from './auth/authSlice'
-import { getDefaultLocale } from 'react-datepicker'
+import carsReducer from './cars/carsSlise'
+// import { getDefaultLocale } from 'react-datepicker'
 
 const authPersistConfig = {
   key: 'auth',
@@ -20,6 +21,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
+  cars: carsReducer,
 })
 
 export const store = configureStore({
