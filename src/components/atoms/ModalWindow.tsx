@@ -6,10 +6,18 @@ import { MdOutlineCancel } from 'react-icons/md'
 type Props = {
   modalIcon: React.ReactNode
   modalName: string
+  CancelBTN: () => void
+  AcceptBTN: () => void
   children: React.ReactNode
 }
 
-function ModalWindow({ modalIcon, modalName, children }: Props) {
+function ModalWindow({
+  modalIcon,
+  modalName,
+  children,
+  CancelBTN,
+  AcceptBTN,
+}: Props) {
   return (
     <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)] flex justify-center items-center ">
       <div className=" bg-white flex flex-col justify-center w-[516px] gap-[16px] p-[20px] shadow-md rounded-[12px] ">
@@ -18,12 +26,15 @@ function ModalWindow({ modalIcon, modalName, children }: Props) {
             {modalIcon}
             <h2 className="text-lg font-semibold mb-4">{modalName}</h2>
           </div>
-          <MdOutlineCancel className="flex items-center justify-center  h-[24px] w-[24px] fill-gray-300 focus::bg-gray-400" />
+          <MdOutlineCancel
+            onClick={CancelBTN}
+            className="flex items-center justify-center  h-[24px] w-[24px] fill-gray-300 hover:fill-gray-400"
+          />
         </div>
         {children}
         <div className="flex justify-end gap-[16px]">
-          <DisabledButtonM tittle={'Anuluj'} />
-          <ButtonMedium tittle={'Dodaj nowy samochód '} />
+          <DisabledButtonM tittle={'Anuluj'} onClick={CancelBTN} />
+          <ButtonMedium tittle={'Dodaj nowy samochód '} onClick={AcceptBTN} />
         </div>
       </div>
     </div>

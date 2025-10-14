@@ -25,8 +25,3 @@ export type RepeatNewPassword = {
   newPassword: string
   repeatNewPassword: string
 }
-
-export type AddCarModal = {
-  name: string
-  number: string
-}

@@ -1,7 +1,7 @@
 import type { CarsState } from './carsType'
 import { handlePending, handleRejected } from '../../utils/reduxCarsHandlers'
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCarsThunk } from './carsThunk'
+import { fetchCarsThunk, postCarsThunk } from './carsThunk'
 import type { Cars } from './carsType'
 
 const initialState: CarsState = {
@@ -22,6 +22,16 @@ const carsSlice = createSlice({
         state.cars = action.payload
       })
       .addCase(fetchCarsThunk.rejected, handleRejected)
+      .addCase(postCarsThunk.pending, handlePending)
+      .addCase(postCarsThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        if (state.cars && Array.isArray(state.cars.items)) {
+          state.cars.items = [...state.cars.items, action.payload]
+        } else {
+          state.cars = { items: [action.payload] }
+        }
+      })
+      .addCase(postCarsThunk.rejected, handleRejected)
   },
 })
 

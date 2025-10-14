@@ -1,7 +1,7 @@
 import type { RootState } from '../../../redux/store'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCarsThunk } from '../../../redux/cars/carsThunk'
+import { fetchCarsThunk, postCarsThunk } from '../../../redux/cars/carsThunk'
 import type { AppDispatch } from '../../../redux/store'
 // import type { Car } from '../../../redux/cars/carsType'
 import Pagination from '../../../components/atoms/Pagination'
@@ -10,8 +10,8 @@ import CarsTable from '../../../components/Admin/SettingPages/Cars/CarsTable'
 import ModalWindow from '../../../components/atoms/ModalWindow'
 import Input from '../../../components/atoms/Input'
 import { IoIosAdd } from 'react-icons/io'
-import type { AddCarModal } from '../../../lib/pageType'
 import { useForm } from 'react-hook-form'
+import type { PostCar } from '../../../redux/cars/carsType'
 
 function AdminCars() {
   const [page, setPage] = useState(1)
@@ -19,15 +19,26 @@ function AdminCars() {
   const [isOpenAdd, setIsOpenAdd] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const { cars, status } = useSelector((state: RootState) => state.cars)
-  const { register, handleSubmit, reset } = useForm<AddCarModal>()
+  const { register, handleSubmit, reset } = useForm<PostCar>()
 
   useEffect(() => {
     dispatch(fetchCarsThunk({ page }))
   }, [page, dispatch])
 
-  const handleAddCar = () => {
-    setIsOpenAdd((prev) => !prev)
-  }
+  const acceptNewCar = handleSubmit(async (data) => {
+    const payload = {
+      ...data,
+      registrationNumber: data.registrationNumber.toUpperCase(),
+    }
+    try {
+      await dispatch(postCarsThunk(payload))
+      dispatch(fetchCarsThunk({ page }))
+      reset()
+      setIsOpenAdd(false)
+    } catch (error) {
+      console.log('Error add cars', error)
+    }
+  })
 
   if (status === 'loading') return <p>Ładowanie...</p>
   if (status === 'failed') return <p>Błąd pobierania danych</p>
@@ -42,7 +53,7 @@ function AdminCars() {
           <MiddleButton
             tittle="Dodaj samochód"
             type="add"
-            onClick={handleAddCar}
+            onClick={() => setIsOpenAdd((prev) => !prev)}
           />
         </div>
         <CarsTable cars={cars} status={status} />
@@ -50,12 +61,14 @@ function AdminCars() {
       </div>
       {isOpenAdd && (
         <ModalWindow
+          CancelBTN={() => setIsOpenAdd((prev) => !prev)}
+          AcceptBTN={acceptNewCar}
           modalName={'Dodaj samochód'}
           modalIcon={
             <IoIosAdd className="flex items-center justify-center  h-[28px] w-[28px] fill-amber-600" />
           }
         >
-          <form>
+          <form className="mb-[40px]">
             <Input
               inputLabel="Nazwa samochodu"
               register={register('name')}
@@ -65,7 +78,7 @@ function AdminCars() {
             />
             <Input
               inputLabel="Numer rejestracyjny samochodu"
-              register={register('number')}
+              register={register('registrationNumber')}
               type="text"
               placeholder=""
               required={true}

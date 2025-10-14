@@ -18,3 +18,8 @@ export type CarsState = {
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null | { message: string }
 }
+
+export type PostCar = {
+  name: string
+  registrationNumber: string
+}
