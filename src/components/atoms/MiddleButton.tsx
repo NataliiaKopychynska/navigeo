@@ -3,7 +3,7 @@ import { IoIosAdd } from 'react-icons/io'
 type Props = {
   type?: 'empty' | 'add' | 'edit' | 'delate'
   tittle: string
-  onClick: any
+  onClick: () => void
 }
 
 function MiddleButton({ type = 'empty', tittle, onClick }: Props) {

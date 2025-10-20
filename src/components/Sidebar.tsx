@@ -3,15 +3,16 @@ import { GrList } from 'react-icons/gr'
 import { BsCalendar3 } from 'react-icons/bs'
 // import { FaPeopleGroup } from 'react-icons/fa6'
 import { useDispatch, useSelector } from 'react-redux'
-import type { RootState } from '@reduxjs/toolkit/query'
+import type { RootState, AppDispatch } from '../redux/store'
 import { useEffect, useState } from 'react'
 import Navigation from './Admin/Setting /Navigation'
 import SettingNavigation from './Admin/Setting /SettingNavigation'
 import { MdLogout } from 'react-icons/md'
-import { logout } from '../redux/auth/authSlice'
+// import { logout } from '../redux/auth/authSlice'
+import { logoutThunk } from '../redux/auth/authThunk'
 
 function Sidebar() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.auth.user)
   // const [showSettingsMenu, setShowSettingsMenu] = useState(false)
@@ -25,7 +26,8 @@ function Sidebar() {
   }, [showSettingsMenu])
 
   const handleLogout = () => {
-    dispatch(logout())
+    dispatch(logoutThunk())
+    // dispatch(logout())
     // localStorage.removeItem('user')
     // localStorage.removeItem('persist:auth')
     localStorage.clear()
@@ -35,7 +37,7 @@ function Sidebar() {
 
   return (
     <div className="h-screen pl-[20px] pt-[20px] shadow w-[200px] flex flex-col justify-between pb-[24px] ">
-      {user.type === '' && (
+      {user?.type === '' && (
         <div className="">
           <NavLink to="client/setting">
             <img
@@ -59,7 +61,7 @@ function Sidebar() {
           </NavLink>
         </div>
       )}
-      {user.type === 'super_admin' && (
+      {user?.type === 'super_admin' && (
         <div className=" ">
           {!showSettingsMenu && (
             <Navigation setShowSettingsMenu={setShowSettingsMenu} />

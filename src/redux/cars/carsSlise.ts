@@ -2,7 +2,6 @@ import type { CarsState } from './carsType'
 import { handlePending, handleRejected } from '../../utils/reduxCarsHandlers'
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchCarsThunk, postCarsThunk } from './carsThunk'
-import type { Cars } from './carsType'
 
 const initialState: CarsState = {
   cars: null,

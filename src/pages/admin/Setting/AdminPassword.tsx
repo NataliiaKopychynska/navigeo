@@ -21,6 +21,8 @@ function AdminPassword() {
     }
   }
 
+  const handleClick = () => {}
+
   return (
     <div className="pb-[12px]">
       <div className="flex gap-2 items-center">
@@ -31,7 +33,7 @@ function AdminPassword() {
         <p className="text-gray-600 text-[14px]">Zmiana hasła</p>
       </div>
       <h1 className="text-2xl font-medium text-gray-900 pt-[24px] mb-[24px]">
-        Dane konta
+        Zmiana hasła
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className=" w-[456px]">
         <div className="flex flex-col gap-[16px] pb-[24px] mb-[32px] border-b-[1px] border-b-gray-300">
@@ -57,7 +59,7 @@ function AdminPassword() {
             required={true}
           />
         </div>
-        <ButtonMedium tittle={'Zapisz zmiany'} />
+        <ButtonMedium tittle={'Zapisz zmiany'} onClick={handleClick} />
       </form>
     </div>
   )

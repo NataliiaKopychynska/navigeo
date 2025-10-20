@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { PostCar, type Car, type Cars, type FetchCars } from './carsType'
+import type { PostCar, Car, Cars, FetchCars } from './carsType'
 import axios from 'axios'
 import { http } from '../../lib/http'
 
@@ -29,7 +29,7 @@ export const postCarsThunk = createAsyncThunk<
   { rejectValue: string }
 >('cars/post', async (params, { rejectWithValue }) => {
   try {
-    const { data } = await http.post<PostCar>('/cars', params)
+    const { data } = await http.post<Car>('/cars', params)
     return data
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
