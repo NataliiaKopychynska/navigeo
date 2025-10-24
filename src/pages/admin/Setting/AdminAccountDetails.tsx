@@ -4,24 +4,32 @@ import { FaArrowRight } from 'react-icons/fa6'
 import { changeMainDataThunk } from '../../../redux/auth/meThunk'
 import Input from '../../../components/atoms/Input'
 import ButtonMedium from '../../../components/atoms/ButtonMedium'
-import { useDispatch } from 'react-redux'
-import type { AppDispatch } from '../../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import type { AppDispatch, RootState } from '../../../redux/store'
+import { toast } from 'react-toastify'
 
 function AdminAccountDetails() {
   const dispatch = useDispatch<AppDispatch>()
   const { register, handleSubmit, reset } = useForm<MainDataInputs>()
+  const { user } = useSelector((state: RootState) => state.auth)
+
+  const fullNameArr = user?.fullName.split(' ') || ['', '']
+  const firstName = fullNameArr[0] || ''
+  const lastName = fullNameArr.slice(1).join(' ') || ''
 
   const onSubmit = async (data: MainDataInputs) => {
     const replaceFormData: ChangeMainData = {
-      fullName: `${data.name},${data.sureName}`,
+      fullName: `${data.name} ${data.sureName}`,
       email: data.mail,
     }
 
     try {
       const response = await dispatch(changeMainDataThunk(replaceFormData))
+      toast.success('Dane zostały zaktualizowane')
       return response
     } catch (error) {
       console.error('error update user data', error)
+      toast.error('Nie udało się zaktualizować dane')
     } finally {
       reset()
     }
@@ -45,21 +53,21 @@ function AdminAccountDetails() {
             inputLabel="Imię"
             register={register('name')}
             type="text"
-            placeholder=""
+            defaultValue={firstName}
             required={true}
           />
           <Input
             inputLabel="Nazwisko"
             register={register('sureName')}
             type="text"
-            placeholder=""
+            defaultValue={lastName}
             required={true}
           />
           <Input
             inputLabel="Adres e-mail"
             register={register('mail')}
             type="email"
-            placeholder=""
+            defaultValue={user?.email}
             required={true}
           />
         </div>

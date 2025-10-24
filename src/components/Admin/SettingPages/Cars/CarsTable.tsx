@@ -1,17 +1,12 @@
 import React from 'react'
 import type { Car } from '../../../../redux/cars/carsType'
 import MenuHover from '../../../../components/atoms/MenuHover'
-
-type Data = {
-  id: string
-  x: number
-  y: number
-}
+import type { DataEdit } from 'pages/admin/Setting/AdminCars'
 
 type Props = {
   cars: Car[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
-  setHoverData: React.Dispatch<React.SetStateAction<null | Data>>
+  setHoverData: React.Dispatch<React.SetStateAction<null | DataEdit>>
   hoverData: null | Data
   onDelete: (car: Car) => void
   onEdit: (car: Car) => void
@@ -42,13 +37,19 @@ function CarsTable({
             >
               <div
                 onMouseEnter={(e) =>
-                  setHoverData({ id: car.id, x: e.clientX, y: e.clientY })
+                  setHoverData({
+                    id: car.id,
+                    x: e.clientX,
+                    y: e.clientY,
+                    name: car.name,
+                    registrationNumber: car.registrationNumber,
+                  })
                 }
-                onMouseLeave={() => {
-                  setTimeout(() => {
-                    setHoverData((prev) => (prev?.id === car.id ? null : prev))
-                  }, 5000)
-                }}
+                // onMouseLeave={() => {
+                //   setTimeout(() => {
+                //     setHoverData((prev) => (prev?.id === car.id ? null : prev))
+                //   }, 5000)
+                // }}
                 className={`p-[8px] border-b border-gray-300 text-gray-500 ${
                   i % 2 !== 0 ? 'bg-gray-50' : ''
                 }`}
@@ -57,13 +58,19 @@ function CarsTable({
               </div>
               <div
                 onMouseEnter={(e) =>
-                  setHoverData({ id: car.id, x: e.clientX, y: e.clientY })
+                  setHoverData({
+                    id: car.id,
+                    x: e.clientX,
+                    y: e.clientY,
+                    name: car.name,
+                    registrationNumber: car.registrationNumber,
+                  })
                 }
-                onMouseLeave={() => {
-                  setTimeout(() => {
-                    setHoverData((prev) => (prev?.id === car.id ? null : prev))
-                  }, 5000)
-                }}
+                // onMouseLeave={() => {
+                //   setTimeout(() => {
+                //     setHoverData((prev) => (prev?.id === car.id ? null : prev))
+                //   }, 5000)
+                // }}
                 className={`p-[8px] border-b border-gray-300 text-gray-500 ${
                   i % 2 !== 0 ? 'bg-gray-50' : ''
                 }`}

@@ -9,6 +9,7 @@ type Props = {
   CancelBTN: () => void
   AcceptBTN: () => void
   children: React.ReactNode
+  acceptButtonTittle: string
 }
 
 function ModalWindow({
@@ -17,6 +18,7 @@ function ModalWindow({
   children,
   CancelBTN,
   AcceptBTN,
+  acceptButtonTittle,
 }: Props) {
   return (
     <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)] flex justify-center items-center ">
@@ -34,7 +36,7 @@ function ModalWindow({
         {children}
         <div className="flex justify-end gap-[16px]">
           <DisabledButtonM tittle={'Anuluj'} onClick={CancelBTN} />
-          <ButtonMedium tittle={'Dodaj nowy samochód '} onClick={AcceptBTN} />
+          <ButtonMedium tittle={acceptButtonTittle} onClick={AcceptBTN} />
         </div>
       </div>
     </div>

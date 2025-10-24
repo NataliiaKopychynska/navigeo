@@ -6,6 +6,7 @@ import type { AppDispatch } from '../../../redux/store'
 import Input from '../../../components/atoms/Input'
 import ButtonMedium from '../../../components/atoms/ButtonMedium'
 import { FaArrowRight } from 'react-icons/fa6'
+import { toast } from 'react-toastify'
 
 function AdminPassword() {
   const dispatch = useDispatch<AppDispatch>()
@@ -13,8 +14,10 @@ function AdminPassword() {
   const onSubmit = async (data: RepeatNewPassword) => {
     try {
       const response = await dispatch(repeatNewPassword(data))
+      toast.success('Hasło zostało zmienione')
       return response
     } catch (error) {
+      toast.error('Niepoprawnie wpisano hasło')
       console.log('error repeat password', error)
     } finally {
       reset()

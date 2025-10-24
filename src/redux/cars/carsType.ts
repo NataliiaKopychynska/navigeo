@@ -23,3 +23,11 @@ export type PostCar = {
   name: string
   registrationNumber: string
 }
+
+export type DataEdit = {
+  id: string
+  x: number
+  y: number
+  name: string
+  registrationNumber: string
+}

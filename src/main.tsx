@@ -11,6 +11,8 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
 })
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 // import { RouterProvider } from 'react-router-dom'
 // import { router } from './routes/router'
 import App from './App'
@@ -21,5 +23,6 @@ createRoot(document.getElementById('root')!).render(
       {/* <RouterProvider router={router} /> */}
       <App />
     </Provider>
+    <ToastContainer position="top-right" autoClose={3000} />
   </StrictMode>,
 )

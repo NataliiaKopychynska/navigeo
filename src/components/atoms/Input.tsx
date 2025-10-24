@@ -1,14 +1,15 @@
-import React from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
 
 type InputProps = {
   inputLabel: string
   register: UseFormRegisterReturn<any>
   type: string
-  placeholder: string
+  placeholder?: string
   required?: boolean
+  defaultValue?: string
 }
 function Input({
+  defaultValue,
   inputLabel,
   register,
   type,
@@ -21,6 +22,7 @@ function Input({
         {inputLabel}
       </h3>
       <input
+        defaultValue={defaultValue}
         {...register}
         type={type}
         placeholder={placeholder}
