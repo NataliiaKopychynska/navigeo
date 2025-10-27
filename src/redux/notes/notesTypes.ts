@@ -10,6 +10,7 @@ export interface Note {
     facilityId?: string
   }
 }
+
 export interface NotesResponse {
   items: Note[]
   total: number

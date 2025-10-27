@@ -3,12 +3,15 @@ import Input from '../../../../components/atoms/Input'
 import ModalWindow from '../../../../components/atoms/ModalWindow'
 import type { UseFormRegister } from 'react-hook-form'
 import type { PostCar, DataEdit } from '../../../../redux/cars/carsType'
+import { useEffect } from 'react'
 
 type ModalEditCarProps = {
   hoverData: DataEdit | null
   register: UseFormRegister<PostCar>
   handleEdit: () => void
   setIsOpenEdit: React.Dispatch<React.SetStateAction<boolean>>
+  setHoverData: React.Dispatch<React.SetStateAction<DataEdit | null>>
+  watch: any
 }
 
 function ModalEditCar({
@@ -16,7 +19,15 @@ function ModalEditCar({
   register,
   handleEdit,
   setIsOpenEdit,
+  setHoverData,
+  watch,
 }: ModalEditCarProps) {
+  useEffect(() => {
+    const subscription = watch((values) => {
+      setHoverData((prev) => ({ ...prev!, ...values }))
+    })
+    return () => subscription.unsubscribe()
+  }, [watch])
   return (
     <ModalWindow
       CancelBTN={() => setIsOpenEdit((prev) => !prev)}
@@ -32,14 +43,14 @@ function ModalEditCar({
           inputLabel="Nazwa samochodu"
           register={register('name')}
           type="text"
-          placeholder={hoverData?.name ?? ''}
+          defaultValue={hoverData?.name ?? ''}
           required={true}
         />
         <Input
           inputLabel="Numer rejestracyjny samochodu"
           register={register('registrationNumber')}
           type="text"
-          placeholder={hoverData?.registrationNumber ?? ''}
+          defaultValue={hoverData?.registrationNumber ?? ''}
           required={true}
         />
       </form>

@@ -30,7 +30,7 @@ function AdminCars() {
 
   const dispatch = useDispatch<AppDispatch>()
   const { cars, status } = useSelector((state: RootState) => state.cars)
-  const { register, handleSubmit, reset, setValue } = useForm<PostCar>()
+  const { register, handleSubmit, reset, setValue, watch } = useForm<PostCar>()
 
   useEffect(() => {
     dispatch(fetchCarsThunk({ page }))
@@ -130,6 +130,8 @@ function AdminCars() {
       )}
       {isOpenEdit && (
         <ModalEditCar
+          watch={watch}
+          setHoverData={setHoverData}
           hoverData={hoverData}
           register={register}
           handleEdit={handleEdit}
