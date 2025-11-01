@@ -13,6 +13,8 @@ import AdminSurgery from '../../pages/admin/Setting/AdminSurgery'
 import AdminEquipment from '../../pages/admin/Setting/AdminEquipment'
 import { Navigate } from 'react-router-dom'
 import AdminPassword from '../../pages/admin/Setting/AdminPassword'
+import MapForDesignPurposes from '../../components/Admin/SettingPages/Prise/MapForDesignPurposes'
+import InventoryStaking from '../../components/Admin/SettingPages/Prise/InventoryStaking'
 
 export const adminSettingRoutes = [
   { path: 'account-details', element: <AdminAccountDetails /> },
@@ -21,7 +23,14 @@ export const adminSettingRoutes = [
   { path: 'admin-accounts', element: <AdminAccounts /> },
   { path: 'cars', element: <AdminCars /> },
   { path: 'tasks', element: <AdminTasks /> },
-  { path: 'prices', element: <AdminPrices /> },
+  {
+    path: 'prices',
+    element: <AdminPrices />,
+    children: [
+      { path: 'mapForDesignPurposes', element: <MapForDesignPurposes /> },
+      { path: 'inventoryStaking', element: <InventoryStaking /> },
+    ],
+  },
   { path: 'surgery', element: <AdminSurgery /> },
   { path: 'equipment', element: <AdminEquipment /> },
 ]

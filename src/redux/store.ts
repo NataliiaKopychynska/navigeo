@@ -23,7 +23,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   cars: carsReducer,
-  note: notesReducer,
+  notes: notesReducer,
 })
 
 export const store = configureStore({

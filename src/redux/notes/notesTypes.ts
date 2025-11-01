@@ -35,3 +35,18 @@ export type InitialsState = {
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null | { message: string }
 }
+
+export type DataEdit = {
+  id: string
+  x: number
+  y: number
+  text: string
+  createdAt: string
+  source?: {
+    sourceId?: string
+    source?: string
+  }
+  facility?: {
+    facilityId?: string
+  }
+}

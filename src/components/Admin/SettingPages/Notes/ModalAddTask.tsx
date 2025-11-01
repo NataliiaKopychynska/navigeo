@@ -1,6 +1,6 @@
 import type { Note } from 'redux/notes/notesTypes'
-import Input from '../../../../components/atoms/Input'
-import ModalWindow from '../../../../components/atoms/ModalWindow'
+import Input from '../../../atoms/Input'
+import ModalWindow from '../../../atoms/ModalWindow'
 import { IoIosAdd } from 'react-icons/io'
 
 type Props = {

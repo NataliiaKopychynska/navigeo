@@ -19,7 +19,7 @@ export const fetchCarsThunk = createAsyncThunk<
         'Login failed'
       return rejectWithValue(message)
     }
-    return rejectWithValue('Login failed')
+    return rejectWithValue('Get failed')
   }
 })
 
@@ -39,7 +39,7 @@ export const postCarsThunk = createAsyncThunk<
         'Login failed'
       return rejectWithValue(message)
     }
-    return rejectWithValue('Login failed')
+    return rejectWithValue('Post failed')
   }
 })
 
@@ -59,7 +59,7 @@ export const replaceCarThunk = createAsyncThunk<
         'Login failed'
       return rejectWithValue(message)
     }
-    return rejectWithValue('Login failed')
+    return rejectWithValue('Replace failed')
   }
 })
 
@@ -79,6 +79,6 @@ export const deleteCarThunk = createAsyncThunk<
         'Login failed'
       return rejectWithValue(message)
     }
-    return rejectWithValue('Login failed')
+    return rejectWithValue('Delete failed')
   }
 })
