@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import type { PriceGroup, FetchData, PriceType } from './priceType'
+import type { PriceGroup, FetchData, PriceType, PriceTab } from './priceType'
 import axios from 'axios'
 import { http } from '../../lib/http'
 
@@ -23,4 +23,22 @@ export const fetchPricesThunk = createAsyncThunk<
   }
 })
 
-// export const
+export const postPriceThunk = createAsyncThunk<
+  PriceTab,
+  PriceGroup,
+  { rejectValue: string }
+>('prices/get', async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await http.post<PriceGroup[]>('/price-lists', { params })
+    return data
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        (error.response?.data as { message?: string } | undefined)?.message ||
+        error.message ||
+        'Login failed'
+      return rejectWithValue(message)
+    }
+    return rejectWithValue('Post failed')
+  }
+})

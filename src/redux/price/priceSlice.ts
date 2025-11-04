@@ -1,7 +1,7 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 import type { PriceState } from './priceType'
 import { handlePending, handleRejected } from '../../utils/reduxPriceHandlers'
-import { fetchPricesThunk } from './priseThunk'
+import { fetchPricesThunk, postPriceThunk } from './priseThunk'
 
 const initialState: PriceState = {
   priceList: {
@@ -32,12 +32,21 @@ const priceSlice = createSlice({
         console.log(current(state))
       })
       .addCase(fetchPricesThunk.rejected, handleRejected)
-    //   .addCase(_.pending, handlePending)
-    //   .addCase(_.fulfilled, (state, action) => {
-    //     state.status = 'succeeded'
-    //     state.priceList = action.payload
-    //   })
-    //   .addCase(_.rejected, handleRejected)
+      .addCase(postPriceThunk.pending, handlePending)
+      .addCase(postPriceThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        const newItem = action.payload
+        const type = newItem.type
+
+        if (type) {
+          if (state.priceList[type]) {
+            state.priceList[type].push(newItem)
+          } else {
+            state.priceList[type] = [newItem]
+          }
+        }
+      })
+      .addCase(postPriceThunk.rejected, handleRejected)
 
     //   .addCase(_.pending, handlePending)
     //   .addCase(_.fulfilled, (state, action) => {

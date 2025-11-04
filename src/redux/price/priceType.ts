@@ -36,3 +36,10 @@ export type FetchData = {
   per_page?: number
   type?: PriceType
 }
+
+export type PriceTab = {
+  type: PriceType
+  name: string
+  basePrice: number
+  additionalPrice: number
+}

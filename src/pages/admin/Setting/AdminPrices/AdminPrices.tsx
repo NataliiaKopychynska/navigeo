@@ -4,16 +4,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, Outlet } from 'react-router-dom'
 import { fetchPricesThunk } from '../../../../redux/price/priseThunk'
 import type { AppDispatch } from '../../../../redux/store'
+import AddPriseTabModal from '../../../../components/Admin/SettingPages/Prise/AddPriseTabModal'
+import type { PriceTab } from '../../../../redux/price/priceType'
+import { useForm } from 'react-hook-form'
 
 export default function AdminPrices() {
   const dispatch = useDispatch<AppDispatch>()
   const { priceList, status } = useSelector((state: RootState) => state.prices)
+  const { register, handleSubmit, reset, setValue, watch } = useForm<PriceTab>()
 
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(50)
   const [orderType, setOrderType] = useState<
     'design_purposes_map' | 'inventory' | 'staking'
   >('design_purposes_map')
+  const [isOpenAddTab, setIsOpenAddTab] = useState(false)
 
   useEffect(() => {
     dispatch(fetchPricesThunk({ page, per_page: perPage, type: orderType }))
@@ -63,7 +68,15 @@ export default function AdminPrices() {
           Inwentaryzacja, tyczenie
         </NavLink>
       </div>
-      <Outlet />
+      <Outlet context={{ handleAddTab: () => setIsOpenAddTab(true) }} />
+
+      {isOpenAddTab && (
+        <AddPriseTabModal
+          CancelBTN={() => setIsOpenAddTab(false)}
+          AcceptBTN={() => setIsOpenAddTab(false)}
+          register={register}
+        />
+      )}
     </div>
   )
 }

@@ -3,23 +3,25 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import type { RootState, AppDispatch } from '../../../../../redux/store'
-import { fetchPricesThunk } from '../../../../../redux/price/priseThunk'
+import { postPriceThunk } from '../../../../../redux/price/priseThunk'
 import type { PriceGroup } from '../../../../../redux/price/priceType'
+import { useOutletContext } from 'react-router-dom'
+
+type OutletContextType = {
+  handleAddTab: () => void
+}
 
 function MapForDesignPurposes() {
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const { priceID } = useParams()
   const { priceList } = useSelector((state: RootState) => state.prices)
   const designPrices = priceList.design_purposes_map
 
-  const [isOpenAdd, setIsOpenAdd] = useState(false)
+  const { handleAddTab } = useOutletContext<OutletContextType>()
 
   const tabClick = (tab: PriceGroup) => {
     navigate(`/layout/admin/setting/prices/mapForDesignPurposes/${tab.id}`)
-  }
-
-  const handleAddTab = () => {
-    console.log('handleAddTab')
   }
 
   return (
