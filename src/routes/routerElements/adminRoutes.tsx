@@ -8,13 +8,14 @@ import AdminUsers from '../../pages/admin/Setting/AdminUsers'
 import AdminAccounts from '../../pages/admin/Setting/AdminAccounts'
 import AdminCars from '../../pages/admin/Setting/AdminCars'
 import AdminTasks from '../../pages/admin/Setting/AdminTasks'
-import AdminPrices from '../../pages/admin/Setting/AdminPrices'
+import AdminPrices from '../../pages/admin/Setting/AdminPrices/AdminPrices'
 import AdminSurgery from '../../pages/admin/Setting/AdminSurgery'
 import AdminEquipment from '../../pages/admin/Setting/AdminEquipment'
 import { Navigate } from 'react-router-dom'
 import AdminPassword from '../../pages/admin/Setting/AdminPassword'
-import MapForDesignPurposes from '../../components/Admin/SettingPages/Prise/MapForDesignPurposes'
-import InventoryStaking from '../../components/Admin/SettingPages/Prise/InventoryStaking'
+import MapForDesignPurposes from '../../pages/admin/Setting/AdminPrices/MapForDesignPurposes/MapForDesignPurposes'
+import InventoryStaking from '../../pages/admin/Setting/AdminPrices/InventoryStaking/InventoryStaking'
+import PricePage from '../../pages/admin/Setting/AdminPrices/MapForDesignPurposes/PricePage'
 
 export const adminSettingRoutes = [
   { path: 'account-details', element: <AdminAccountDetails /> },
@@ -27,7 +28,16 @@ export const adminSettingRoutes = [
     path: 'prices',
     element: <AdminPrices />,
     children: [
-      { path: 'mapForDesignPurposes', element: <MapForDesignPurposes /> },
+      {
+        path: 'mapForDesignPurposes',
+        element: <MapForDesignPurposes />,
+        children: [
+          {
+            path: ':priceID',
+            element: <PricePage />,
+          },
+        ],
+      },
       { path: 'inventoryStaking', element: <InventoryStaking /> },
     ],
   },
