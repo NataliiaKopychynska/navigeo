@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { NavLink, Outlet } from 'react-router-dom'
-import { fetchPricesThunk } from '../../../../redux/price/priseThunk'
+import {
+  fetchPricesThunk,
+  postPriceThunk,
+} from '../../../../redux/price/priseThunk'
 import type { AppDispatch } from '../../../../redux/store'
 import AddPriseTabModal from '../../../../components/Admin/SettingPages/Prise/AddPriseTabModal'
-import type { PriceTab } from '../../../../redux/price/priceType'
+import type { PriceTab, PriceType } from '../../../../redux/price/priceType'
 import { useForm } from 'react-hook-form'
 
 export default function AdminPrices() {
   const dispatch = useDispatch<AppDispatch>()
-  const { priceList, status } = useSelector((state: RootState) => state.prices)
-  const { register, handleSubmit, reset, setValue, watch } = useForm<PriceTab>()
+  const { register, handleSubmit } = useForm<PriceTab>()
 
-  const [page, setPage] = useState(1)
-  const [perPage, setPerPage] = useState(50)
+  const [page] = useState(1)
+  const [perPage] = useState(50)
   const [orderType, setOrderType] = useState<
     'design_purposes_map' | 'inventory' | 'staking'
   >('design_purposes_map')
@@ -37,6 +39,16 @@ export default function AdminPrices() {
   // const handlePerPage = (perPage: number) => {
   //   setPerPage(perPage)
   // }
+
+  const addNewPriseMFDP = async (data: PriceTab) => {
+    const newPrice: PriceTab = {
+      ...data,
+      type: 'design_purposes_map' as PriceType,
+    }
+    await dispatch(postPriceThunk(newPrice))
+    setIsOpenAddTab(false)
+    // console.log(newPrice)
+  }
 
   return (
     <div className="flex flex-col ">
@@ -73,7 +85,7 @@ export default function AdminPrices() {
       {isOpenAddTab && (
         <AddPriseTabModal
           CancelBTN={() => setIsOpenAddTab(false)}
-          AcceptBTN={() => setIsOpenAddTab(false)}
+          AcceptBTN={handleSubmit(addNewPriseMFDP)}
           register={register}
         />
       )}

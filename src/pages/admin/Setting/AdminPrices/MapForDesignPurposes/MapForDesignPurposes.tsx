@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import type { RootState, AppDispatch } from '../../../../../redux/store'
-import { postPriceThunk } from '../../../../../redux/price/priseThunk'
+// import { postPriceThunk } from '../../../../../redux/price/priseThunk'
 import type { PriceGroup } from '../../../../../redux/price/priceType'
 import { useOutletContext } from 'react-router-dom'
 
@@ -12,7 +12,7 @@ type OutletContextType = {
 }
 
 function MapForDesignPurposes() {
-  const dispatch = useDispatch<AppDispatch>()
+  // const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const { priceID } = useParams()
   const { priceList } = useSelector((state: RootState) => state.prices)

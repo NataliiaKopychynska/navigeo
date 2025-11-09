@@ -1,5 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import type { PriceGroup, FetchData, PriceType, PriceTab } from './priceType'
+import type {
+  PriceGroup,
+  FetchData,
+  PriceType,
+  PriceTab,
+  PriseListId,
+  PriceListItem,
+} from './priceType'
 import axios from 'axios'
 import { http } from '../../lib/http'
 
@@ -24,12 +31,12 @@ export const fetchPricesThunk = createAsyncThunk<
 })
 
 export const postPriceThunk = createAsyncThunk<
-  PriceTab,
   PriceGroup,
+  PriceTab,
   { rejectValue: string }
 >('prices/get', async (params, { rejectWithValue }) => {
   try {
-    const { data } = await http.post<PriceGroup[]>('/price-lists', { params })
+    const { data } = await http.post<PriceGroup>('/price-lists', params)
     return data
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -42,3 +49,43 @@ export const postPriceThunk = createAsyncThunk<
     return rejectWithValue('Post failed')
   }
 })
+
+export const getPriceListByIdThunk = createAsyncThunk<
+  PriceListItem[],
+  string,
+  { rejectValue: string }
+>('prices/getId', async (id, { rejectWithValue }) => {
+  try {
+    const { data } = await http.get<PriceListItem[]>(`/price-lists/${id}/items`)
+    return data
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        (error.response?.data as { message?: string } | undefined)?.message ||
+        error.message ||
+        'Login failed'
+      return rejectWithValue(message)
+    }
+    return rejectWithValue('Post failed')
+  }
+})
+
+// export const getPriceByIdThunk = createAsyncThunk<
+//   PriseListId,
+//   string,
+//   { rejectValue: string }
+// >('prices/getId', async (id, { rejectWithValue }) => {
+//   try {
+//     const { data } = await http.get<PriseListId>(`/price-lists/${id}`)
+//     return data
+//   } catch (error: unknown) {
+//     if (axios.isAxiosError(error)) {
+//       const message =
+//         (error.response?.data as { message?: string } | undefined)?.message ||
+//         error.message ||
+//         'Login failed'
+//       return rejectWithValue(message)
+//     }
+//     return rejectWithValue('Post failed')
+//   }
+// })

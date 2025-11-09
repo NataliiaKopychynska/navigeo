@@ -14,6 +14,13 @@ interface PriceDetails {
   vatRate: number
 }
 
+export type County = {
+  id: string
+  name: string
+  province: string
+  link: string
+}
+
 export interface PriceGroup {
   id: string
   type: PriceType
@@ -27,6 +34,7 @@ export type PriceState = {
   // priceList: PriceGroup[] | null
   priceList: Record<PriceType, PriceGroup[] | null>
   // type: PriceType
+  selectedPriceList: null | PriceListItem[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null | { message: string }
 }
@@ -42,4 +50,17 @@ export type PriceTab = {
   name: string
   basePrice: number
   additionalPrice: number
+}
+
+export type PriseListId = {
+  id: string
+  name: string
+  registrationNumber: string
+}
+
+export type PriceListItem = {
+  id: string
+  county: County
+  basePrice: PriceDetails
+  additionalPrice: PriceDetails
 }

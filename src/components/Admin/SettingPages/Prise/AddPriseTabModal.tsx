@@ -5,7 +5,7 @@ import { IoIosAdd } from 'react-icons/io'
 type Props = {
   CancelBTN: () => void
   AcceptBTN: () => void
-  register: UseFormRegister<Note>
+  register: UseFormRegister<Price>
 }
 
 function AddPriseTabModal({ CancelBTN, AcceptBTN, register }: Props) {
@@ -29,15 +29,15 @@ function AddPriseTabModal({ CancelBTN, AcceptBTN, register }: Props) {
         />
         <Input
           inputLabel="Kwota (za 100m przyłącza)"
-          register={register('basePrice')}
-          type="text"
+          register={register('basePrice', { valueAsNumber: true })}
+          type="number"
           placeholder="140"
           required
         />
         <Input
           inputLabel="Kwota (za kolejne 100m przyłącza)"
-          register={register('additionalPrice')}
-          type="text"
+          register={register('additionalPrice', { valueAsNumber: true })}
+          type="number"
           placeholder="140"
           required
         />

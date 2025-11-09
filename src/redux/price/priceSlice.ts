@@ -1,7 +1,11 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PriceState } from './priceType'
 import { handlePending, handleRejected } from '../../utils/reduxPriceHandlers'
-import { fetchPricesThunk, postPriceThunk } from './priseThunk'
+import {
+  fetchPricesThunk,
+  postPriceThunk,
+  getPriceListByIdThunk,
+} from './priseThunk'
 
 const initialState: PriceState = {
   priceList: {
@@ -9,6 +13,7 @@ const initialState: PriceState = {
     inventory: null,
     staking: null,
   },
+  selectedPriceList: null,
   status: 'idle',
   error: null,
 }
@@ -29,7 +34,7 @@ const priceSlice = createSlice({
           )
           state.priceList[type] = filteredData
         }
-        console.log(current(state))
+        // console.log(current(state))
       })
       .addCase(fetchPricesThunk.rejected, handleRejected)
       .addCase(postPriceThunk.pending, handlePending)
@@ -48,12 +53,12 @@ const priceSlice = createSlice({
       })
       .addCase(postPriceThunk.rejected, handleRejected)
 
-    //   .addCase(_.pending, handlePending)
-    //   .addCase(_.fulfilled, (state, action) => {
-    //     state.status = 'succeeded'
-    //     state.priceList = action.payload
-    //   })
-    //   .addCase(_.rejected, handleRejected)
+      .addCase(getPriceListByIdThunk.pending, handlePending)
+      .addCase(getPriceListByIdThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.selectedPriceList = action.payload
+      })
+      .addCase(getPriceListByIdThunk.rejected, handleRejected)
     //   .addCase(_.pending, handlePending)
     //   .addCase(_.fulfilled, (state, action) => {
     //     state.status = 'succeeded'
