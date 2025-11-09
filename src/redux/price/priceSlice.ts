@@ -21,7 +21,9 @@ const initialState: PriceState = {
 const priceSlice = createSlice({
   name: 'prices',
   initialState,
-  reducers: {},
+  reducers: {
+    // selectedPrise:
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPricesThunk.pending, handlePending)

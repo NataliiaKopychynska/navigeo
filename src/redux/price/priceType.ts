@@ -31,7 +31,6 @@ export interface PriceGroup {
 }
 
 export type PriceState = {
-  // priceList: PriceGroup[] | null
   priceList: Record<PriceType, PriceGroup[] | null>
   // type: PriceType
   selectedPriceList: null | PriceListItem[]
@@ -46,7 +45,7 @@ export type FetchData = {
 }
 
 export type PriceTab = {
-  type: PriceType
+  type?: PriceType
   name: string
   basePrice: number
   additionalPrice: number

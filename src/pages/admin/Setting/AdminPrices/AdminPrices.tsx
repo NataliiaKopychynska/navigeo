@@ -43,6 +43,8 @@ export default function AdminPrices() {
   const addNewPriseMFDP = async (data: PriceTab) => {
     const newPrice: PriceTab = {
       ...data,
+      basePrice: data.basePrice * 100,
+      additionalPrice: data.additionalPrice * 100,
       type: 'design_purposes_map' as PriceType,
     }
     await dispatch(postPriceThunk(newPrice))

@@ -10,12 +10,12 @@ type Props = {
   register: UseFormRegister<PriceTab>
 }
 
-function AddPriseTabModal({ CancelBTN, AcceptBTN, register }: Props) {
+function EditPriseTabModal({ CancelBTN, AcceptBTN, register }: Props) {
   return (
     <ModalWindow
       CancelBTN={CancelBTN}
       AcceptBTN={AcceptBTN}
-      modalName="Nowy cennik"
+      modalName="Edytuj cennik"
       modalIcon={
         <IoIosAdd className="flex items-center justify-center h-[28px] w-[28px] fill-amber-600" />
       }
@@ -48,4 +48,4 @@ function AddPriseTabModal({ CancelBTN, AcceptBTN, register }: Props) {
   )
 }
 
-export default AddPriseTabModal
+export default EditPriseTabModal

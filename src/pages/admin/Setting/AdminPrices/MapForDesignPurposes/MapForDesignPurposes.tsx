@@ -23,6 +23,7 @@ function MapForDesignPurposes() {
   const tabClick = (tab: PriceGroup) => {
     navigate(`/layout/admin/setting/prices/mapForDesignPurposes/${tab.id}`)
   }
+  console.log(priceList)
 
   return (
     <div>
