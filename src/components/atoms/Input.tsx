@@ -6,7 +6,7 @@ type InputProps = {
   type: string
   placeholder?: string
   required?: boolean
-  defaultValue?: string
+  defaultValue?: string | number
 }
 function Input({
   defaultValue,
@@ -16,6 +16,8 @@ function Input({
   placeholder,
   required,
 }: InputProps) {
+  // console.log(defaultValue)
+
   return (
     <div className="flex w-full flex-col">
       <h3 className="text-gray-800 text-[14px] font-normal pl-[8px] pb-[4px]">

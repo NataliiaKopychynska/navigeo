@@ -3,7 +3,7 @@ import type {
   PriceGroup,
   FetchData,
   PriceType,
-  PriceTab,
+  EditRequestPriceTab,
   PriseListId,
   PriceListItem,
 } from './priceType'
@@ -32,7 +32,7 @@ export const fetchPricesThunk = createAsyncThunk<
 
 export const postPriceThunk = createAsyncThunk<
   PriceGroup,
-  PriceTab,
+  EditRequestPriceTab,
   { rejectValue: string }
 >('prices/get', async (params, { rejectWithValue }) => {
   try {
@@ -43,7 +43,27 @@ export const postPriceThunk = createAsyncThunk<
       const message =
         (error.response?.data as { message?: string } | undefined)?.message ||
         error.message ||
-        'Login failed'
+        'get price tab failed'
+      return rejectWithValue(message)
+    }
+    return rejectWithValue('Post failed')
+  }
+})
+
+export const replaceTabPriceById = createAsyncThunk<
+  PriceGroup,
+  { id: string; body: EditRequestPriceTab },
+  { rejectValue: string }
+>('prices/putTab', async ({ id, body }, { rejectWithValue }) => {
+  try {
+    const { data } = await http.put<PriceGroup>(`/price-lists/${id}`, body)
+    return data
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        (error.response?.data as { message?: string } | undefined)?.message ||
+        error.message ||
+        'put price tab failed'
       return rejectWithValue(message)
     }
     return rejectWithValue('Post failed')

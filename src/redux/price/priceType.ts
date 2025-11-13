@@ -2,12 +2,17 @@ type Currency = 'PLN' | 'EUR' | 'USD'
 
 export type PriceType = 'design_purposes_map' | 'inventory' | 'staking'
 
+export type SelectTabInfo = {
+  priceType: PriceType
+  priceId: string
+}
+
 interface Money {
-  amount: string
+  amount: string | number
   currency: Currency
 }
 
-interface PriceDetails {
+export interface PriceDetails {
   netPrice: Money
   grossPrice: Money
   vatAmount: Money
@@ -44,7 +49,7 @@ export type FetchData = {
   type?: PriceType
 }
 
-export type PriceTab = {
+export type EditRequestPriceTab = {
   type?: PriceType
   name: string
   basePrice: number
@@ -60,6 +65,21 @@ export type PriseListId = {
 export type PriceListItem = {
   id: string
   county: County
+  basePrice: PriceDetails
+  additionalPrice: PriceDetails
+}
+
+export type DataEdit = {
+  id?: string
+  type?: PriceType
+  // county: County
+  name: string
+  basePrice: PriceDetails | number
+  additionalPrice: PriceDetails | number
+}
+
+export type EditRequest = {
+  name: string
   basePrice: PriceDetails
   additionalPrice: PriceDetails
 }

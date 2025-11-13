@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import {
   fetchPricesThunk,
   postPriceThunk,
@@ -21,6 +21,12 @@ export default function AdminPrices() {
     'design_purposes_map' | 'inventory' | 'staking'
   >('design_purposes_map')
   const [isOpenAddTab, setIsOpenAddTab] = useState(false)
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    navigate('mapForDesignPurposes')
+  }, [navigate])
 
   useEffect(() => {
     dispatch(fetchPricesThunk({ page, per_page: perPage, type: orderType }))
