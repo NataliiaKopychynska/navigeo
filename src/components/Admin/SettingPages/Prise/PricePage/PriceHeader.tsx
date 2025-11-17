@@ -1,11 +1,14 @@
+import ButtonLink from '../../../../atoms/ButtonLink'
 import ButtonMedium from '../../../../atoms/ButtonMedium'
+// import Button from 'components/atoms/Button'
 
 interface Props {
   currentTab: any
   onEdit: () => void
+  onDelete: () => void
 }
 
-function PriceHeader({ currentTab, onEdit }: Props) {
+function PriceHeader({ currentTab, onEdit, onDelete }: Props) {
   //   console.log(currentTab)
 
   return (
@@ -35,8 +38,10 @@ function PriceHeader({ currentTab, onEdit }: Props) {
           </p>
         </div>
       </div>
-
-      <ButtonMedium tittle="Edytuj" onClick={onEdit} />
+      <div className="flex gap-[16px]">
+        <ButtonLink tittle="Usuń" onClick={onDelete} />
+        <ButtonMedium tittle="Edytuj" onClick={onEdit} />
+      </div>
     </div>
   )
 }

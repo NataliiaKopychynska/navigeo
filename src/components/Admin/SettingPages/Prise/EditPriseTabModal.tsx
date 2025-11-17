@@ -2,18 +2,23 @@ import ModalWindow from '../../../atoms/ModalWindow'
 import Input from '../../../atoms/Input'
 import { IoIosAdd } from 'react-icons/io'
 import type { UseFormRegister, UseFormWatch } from 'react-hook-form'
-import type { EditRequest } from '../../../../redux/price/priceType'
 import { useEffect } from 'react'
 import type { DataEdit } from 'redux/price/priceType'
 
+type FormData = {
+  name: string
+  basePrice: number
+  additionalPrice: number
+}
+
 type Props = {
   hoverData: DataEdit | null
-  register: UseFormRegister<EditRequest>
+  register: UseFormRegister<FormData>
   handleEdit: () => void
   setIsOpenEdit: React.Dispatch<React.SetStateAction<boolean>>
   setHoverData: React.Dispatch<React.SetStateAction<DataEdit | null>>
-  watch: UseFormWatch<EditRequest>
-  reset: (values?: Partial<EditRequest>) => void
+  watch: UseFormWatch<FormData>
+  reset: (values?: Partial<FormData>) => void
 }
 
 function EditPriseTabModal({
@@ -25,17 +30,18 @@ function EditPriseTabModal({
   watch,
   reset,
 }: Props) {
-  console.log(hoverData, '0')
+  // console.log(hoverData, '0')
   useEffect(() => {
-    // console.log(hoverData, '1')
-
     if (hoverData) {
       reset({
         name: hoverData.name,
-        basePrice: hoverData.basePrice,
-        additionalPrice: hoverData.additionalPrice,
+        basePrice:
+          typeof hoverData.basePrice === 'number' ? hoverData.basePrice : 0,
+        additionalPrice:
+          typeof hoverData.additionalPrice === 'number'
+            ? hoverData.additionalPrice
+            : 0,
       })
-      console.log(hoverData, '2')
     }
   }, [hoverData, reset])
   // useEffect(() => { // const subscription = watch((values) => { // setHoverData((prev) => ({ ...prev!, ...values }) as DataEdit) // })
@@ -65,17 +71,21 @@ function EditPriseTabModal({
         <Input
           inputLabel="Kwota (za 100m przyłącza)"
           register={register('basePrice', { valueAsNumber: true })}
-          // register={register('basePrice.netPrice.amount')}
           type="number"
-          defaultValue={+hoverData?.basePrice}
+          defaultValue={
+            typeof hoverData?.basePrice === 'number' ? hoverData.basePrice : 0
+          }
           required
         />
         <Input
           inputLabel="Kwota (za kolejne 100m przyłącza)"
-          // register={register('additionalPrice.netPrice.amount', { // valueAsNumber: true, // })}
           register={register('additionalPrice', { valueAsNumber: true })}
           type="number"
-          defaultValue={+hoverData?.grossPrice}
+          defaultValue={
+            typeof hoverData?.additionalPrice === 'number'
+              ? hoverData.additionalPrice
+              : 0
+          }
           required
         />{' '}
       </form>{' '}

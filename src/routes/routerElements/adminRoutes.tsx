@@ -13,10 +13,38 @@ import AdminSurgery from '../../pages/admin/Setting/AdminSurgery'
 import AdminEquipment from '../../pages/admin/Setting/AdminEquipment'
 import { Navigate } from 'react-router-dom'
 import AdminPassword from '../../pages/admin/Setting/AdminPassword'
-import MapForDesignPurposes from '../../pages/admin/Setting/AdminPrices/MapForDesignPurposes/MapForDesignPurposes'
-import InventoryStaking from '../../pages/admin/Setting/AdminPrices/InventoryStaking/InventoryStaking'
-import PricePage from '../../pages/admin/Setting/AdminPrices/MapForDesignPurposes/PricePage'
+// import MapForDesignPurposes from '../../pages/admin/Setting/AdminPrices/MapForDesignPurposes/MapForDesignPurposes'
+// import InventoryStaking from '../../pages/admin/Setting/AdminPrices/InventoryStaking/InventoryStaking'
+import PricePage from '../../pages/admin/Setting/AdminPrices/PricePage'
+import PriceTabsPage from '../../pages/admin/Setting/AdminPrices/PriceTabsPage'
 
+// export const adminSettingRoutes = [
+//   { path: 'account-details', element: <AdminAccountDetails /> },
+//   { path: 'password', element: <AdminPassword /> },
+//   { path: 'users', element: <AdminUsers /> },
+//   { path: 'admin-accounts', element: <AdminAccounts /> },
+//   { path: 'cars', element: <AdminCars /> },
+//   { path: 'tasks', element: <AdminTasks /> },
+//   {
+//     path: 'prices',
+//     element: <AdminPrices />,
+//     children: [
+//       {
+//         path: 'mapForDesignPurposes',
+//         element: <MapForDesignPurposes />,
+//         children: [
+//           {
+//             path: ':priceID',
+//             element: <PricePage />,
+//           },
+//         ],
+//       },
+//       { path: 'inventoryStaking', element: <InventoryStaking /> },
+//     ],
+//   },
+//   { path: 'surgery', element: <AdminSurgery /> },
+//   { path: 'equipment', element: <AdminEquipment /> },
+// ]
 export const adminSettingRoutes = [
   { path: 'account-details', element: <AdminAccountDetails /> },
   { path: 'password', element: <AdminPassword /> },
@@ -30,7 +58,7 @@ export const adminSettingRoutes = [
     children: [
       {
         path: 'mapForDesignPurposes',
-        element: <MapForDesignPurposes />,
+        element: <PriceTabsPage type="design_purposes_map" />,
         children: [
           {
             path: ':priceID',
@@ -38,7 +66,26 @@ export const adminSettingRoutes = [
           },
         ],
       },
-      { path: 'inventoryStaking', element: <InventoryStaking /> },
+      {
+        path: 'inventoryStaking',
+        element: <PriceTabsPage type="inventory" />,
+        children: [
+          {
+            path: ':priceID',
+            element: <PricePage />,
+          },
+        ],
+      },
+      {
+        path: 'staking',
+        element: <PriceTabsPage type="staking" />,
+        children: [
+          {
+            path: ':priceID',
+            element: <PricePage />,
+          },
+        ],
+      },
     ],
   },
   { path: 'surgery', element: <AdminSurgery /> },

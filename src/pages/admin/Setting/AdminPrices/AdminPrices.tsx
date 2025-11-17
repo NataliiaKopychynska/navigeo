@@ -25,7 +25,9 @@ export default function AdminPrices() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate('mapForDesignPurposes')
+    navigate(`/layout/admin/setting/prices/mapForDesignPurposes`, {
+      replace: true,
+    })
   }, [navigate])
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export default function AdminPrices() {
       ...data,
       basePrice: data.basePrice * 100,
       additionalPrice: data.additionalPrice * 100,
-      type: 'design_purposes_map' as PriceType,
+      type: orderType as PriceType,
     }
     await dispatch(postPriceThunk(newPrice))
     setIsOpenAddTab(false)

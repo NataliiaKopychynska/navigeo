@@ -43,7 +43,27 @@ export const postPriceThunk = createAsyncThunk<
       const message =
         (error.response?.data as { message?: string } | undefined)?.message ||
         error.message ||
-        'get price tab failed'
+        'add price tab failed'
+      return rejectWithValue(message)
+    }
+    return rejectWithValue('Post failed')
+  }
+})
+
+export const deletePriceThunk = createAsyncThunk<
+  string,
+  { id: string; type: 'design_purposes_map' | 'inventory' | 'staking' },
+  { rejectValue: string }
+>('prices/deleteTab', async ({ id, type }, { rejectWithValue }) => {
+  try {
+    await http.delete(`/price-lists/${id}`)
+    return id
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        (error.response?.data as { message?: string } | undefined)?.message ||
+        error.message ||
+        'delete price tab failed'
       return rejectWithValue(message)
     }
     return rejectWithValue('Post failed')

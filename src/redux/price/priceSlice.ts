@@ -6,6 +6,7 @@ import {
   postPriceThunk,
   getPriceListByIdThunk,
   replaceTabPriceById,
+  deletePriceThunk,
 } from './priseThunk'
 
 const initialState: PriceState = {
@@ -75,12 +76,18 @@ const priceSlice = createSlice({
         }
       })
       .addCase(replaceTabPriceById.rejected, handleRejected)
-    //   .addCase(_.pending, handlePending)
-    //   .addCase(_.fulfilled, (state, action) => {
-    //     state.status = 'succeeded'
-    //     state.priceList = action.payload
-    //   })
-    //   .addCase(_.rejected, handleRejected)
+      .addCase(deletePriceThunk.pending, handlePending)
+      .addCase(deletePriceThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        const { type } = action.meta.arg
+
+        const targetList = state.priceList[type]
+        if (!targetList) return
+        state.priceList[type] = targetList.filter(
+          (tab) => tab.id !== action.payload,
+        )
+      })
+      .addCase(deletePriceThunk.rejected, handleRejected)
     //   .addCase(_.pending, handlePending)
     //   .addCase(_.fulfilled, (state, action) => {
     //     state.status = 'succeeded'
