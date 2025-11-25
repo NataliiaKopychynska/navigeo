@@ -39,8 +39,9 @@ function SelectInput({
       </h3>
       <div
         ref={wrapperRef}
-        className="relative w-[456px] h-[40px] p-[8px]   text-gray-600 border border-gray-200 rounded-[10px] font-light  text-start flex flex-row justify-between"
+        className="relative w-full h-[40px] p-[8px]   text-gray-600 border border-gray-200 rounded-[10px] font-light  text-start flex flex-row justify-between"
       >
+        {/* w-[456px] */}
         <div
           className="flex justify-between pl-[8px]  w-full relative gap-[4px]"
           onClick={() => setIsOpen((prev) => !prev)}

@@ -83,3 +83,28 @@ export type EditRequest = {
   basePrice: PriceDetails
   additionalPrice: PriceDetails
 }
+
+export type RequestNewCountyPrice = {
+  countyId: string
+  basePrice: number
+  additionalPrice: number
+}
+
+///Table
+export type County = {
+  id: string
+  name: string
+  province: string
+  link: string
+}
+
+export type PriceFilters {
+  localization: string
+  basic_prise: number 
+  extra_price: number 
+}
+
+type CountyOption = {
+  label: string 
+  value: string 
+}

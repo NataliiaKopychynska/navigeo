@@ -1,5 +1,5 @@
 type Props = {
-  tittle: string
+  tittle: string | any
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   onClick: () => void

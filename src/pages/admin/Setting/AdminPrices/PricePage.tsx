@@ -1,10 +1,10 @@
 import PriceHeader from '../../../../components/Admin/SettingPages/Prise/PricePage/PriceHeader'
 import EditPriseTabModal from '../../../../components/Admin/SettingPages/Prise/EditPriseTabModal'
-import { PriceList } from '../../../../components/Admin/SettingPages/Prise/PricePage/PriceList'
 import DeletePriceModal from '../../../../components/Admin/SettingPages/Prise/DeletePriceModal'
+import PriceTable from '../../../../components/Admin/SettingPages/Prise/PricePage/Table/PriceTable'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import {
   deletePriceThunk,
@@ -15,6 +15,7 @@ import type { AppDispatch, RootState } from '../../../../redux/store'
 import type { DataEdit, PriceType } from '../../../../redux/price/priceType'
 
 function PricePage() {
+  const navigate = useNavigate()
   const { priceID } = useParams<{ priceID: string }>()
   const { selectedPriceList, priceList } = useSelector(
     (s: RootState) => s.prices,
@@ -52,9 +53,9 @@ function PricePage() {
     if (priceID) dispatch(getPriceListByIdThunk(priceID))
   }, [dispatch, priceID])
 
-  const handleEditPrice = handleSubmit((body) => {
+  const handleEditPrice = handleSubmit(async (body) => {
     if (!priceID) return
-    dispatch(
+    await dispatch(
       replaceTabPriceById({
         id: priceID,
         body: {
@@ -63,8 +64,9 @@ function PricePage() {
           additionalPrice: Number(body.additionalPrice) * 100,
         },
       }),
-    )
-    dispatch(getPriceListByIdThunk(priceID))
+    ).unwrap()
+    dispatch(getPriceListByIdThunk(priceID)).unwrap()
+    navigate(`/layout/admin/setting/prices/${pathSegment}/${priceID}`)
     setIsOpenEditPrise(false)
   })
 
@@ -96,7 +98,8 @@ function PricePage() {
           setIsOpenDeletePrise(true)
         }}
       />
-      <PriceList items={selectedPriceList ?? []} type={currentType} />
+      <PriceTable selectedPriceList={selectedPriceList ?? []} />
+      {/* <PriceList items={selectedPriceList ?? []} type={currentType} /> */}
       {isOpenDeletePrise && (
         <DeletePriceModal
           CancelBTN={() => setIsOpenDeletePrise(false)}

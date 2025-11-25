@@ -20,7 +20,7 @@ export default function Pagination({
   }
 
   return (
-    <div className="flex fixed bottom-[20px] justify-center items-center gap-3 mt-4 py-3">
+    <div className="flex sticky bottom-[20px]  justify-start items-center gap-3 mt-4 py-3">
       <button
         onClick={handlePrev}
         disabled={page === 1}

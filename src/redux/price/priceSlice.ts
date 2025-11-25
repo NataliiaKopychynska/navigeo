@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PriceState } from './priceType'
+import type { PriceState, PriceType } from './priceType'
 import { handlePending, handleRejected } from '../../utils/reduxPriceHandlers'
 import {
   fetchPricesThunk,
@@ -7,6 +7,7 @@ import {
   getPriceListByIdThunk,
   replaceTabPriceById,
   deletePriceThunk,
+  postPriceListByIdThunk,
 } from './priseThunk'
 
 const initialState: PriceState = {
@@ -15,7 +16,7 @@ const initialState: PriceState = {
     inventory: null,
     staking: null,
   },
-  selectedPriceList: null,
+  selectedPriceList: [],
   status: 'idle',
   error: null,
 }
@@ -31,7 +32,7 @@ const priceSlice = createSlice({
       .addCase(fetchPricesThunk.pending, handlePending)
       .addCase(fetchPricesThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        const { type } = action.meta.arg
+        const type = action.meta.arg.type as PriceType | undefined
         if (type) {
           const filteredData = action.payload.data.filter(
             (item) => item.type === type,
@@ -45,7 +46,7 @@ const priceSlice = createSlice({
       .addCase(postPriceThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
         const newItem = action.payload
-        const type = newItem.type
+        const type = newItem.type as PriceType | undefined
 
         if (type) {
           if (state.priceList[type]) {
@@ -67,19 +68,22 @@ const priceSlice = createSlice({
       .addCase(replaceTabPriceById.fulfilled, (state, action) => {
         state.status = 'succeeded'
 
-        const index = state.priceList.design_purposes_map?.findIndex(
-          (tab) => tab.id === action.payload.id,
-        )
+        const updated = action.payload
+        const type = updated.type as PriceType
 
-        if (index !== undefined && index !== -1) {
-          state.priceList.design_purposes_map![index] = action.payload
+        const list = state.priceList[type]
+        if (!list) return
+
+        const index = list.findIndex((tab) => tab.id === updated.id)
+        if (index !== -1) {
+          list[index] = updated
         }
       })
       .addCase(replaceTabPriceById.rejected, handleRejected)
       .addCase(deletePriceThunk.pending, handlePending)
       .addCase(deletePriceThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        const { type } = action.meta.arg
+        const type = action.meta.arg.type as PriceType
 
         const targetList = state.priceList[type]
         if (!targetList) return
@@ -88,12 +92,15 @@ const priceSlice = createSlice({
         )
       })
       .addCase(deletePriceThunk.rejected, handleRejected)
-    //   .addCase(_.pending, handlePending)
-    //   .addCase(_.fulfilled, (state, action) => {
-    //     state.status = 'succeeded'
-    //     state.priceList = action.payload
-    //   })
-    //   .addCase(_.rejected, handleRejected)
+      .addCase(postPriceListByIdThunk.pending, handlePending)
+      .addCase(postPriceListByIdThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        if (!state.selectedPriceList) {
+          state.selectedPriceList = []
+        }
+        state.selectedPriceList.push(action.payload)
+      })
+      .addCase(postPriceListByIdThunk.rejected, handleRejected)
     //   .addCase(_.pending, handlePending)
     //   .addCase(_.fulfilled, (state, action) => {
     //     state.status = 'succeeded'

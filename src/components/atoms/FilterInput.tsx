@@ -21,7 +21,7 @@ function FilterInput<K extends string>({
         placeholder="Wyszukaj"
         value={search}
         onChange={(e) => setFiltersFunction(name, e.target.value)}
-        className="bg-white h-[40px] p-[10px]  text-gray-950 border border-gray-200 rounded-[10px] placeholder:font-light "
+        className="bg-white h-[40px] p-[10px]  text-gray-400 font-light  border border-gray-200 rounded-[10px] placeholder:font-light "
       />
     </th>
   )

@@ -5,6 +5,7 @@ import type {
   PriceType,
   EditRequestPriceTab,
   PriseListId,
+  RequestNewCountyPrice,
   PriceListItem,
 } from './priceType'
 import axios from 'axios'
@@ -77,6 +78,7 @@ export const replaceTabPriceById = createAsyncThunk<
 >('prices/putTab', async ({ id, body }, { rejectWithValue }) => {
   try {
     const { data } = await http.put<PriceGroup>(`/price-lists/${id}`, body)
+    console.log(body)
     return data
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -103,12 +105,38 @@ export const getPriceListByIdThunk = createAsyncThunk<
       const message =
         (error.response?.data as { message?: string } | undefined)?.message ||
         error.message ||
-        'Login failed'
+        'get failed'
       return rejectWithValue(message)
     }
     return rejectWithValue('Post failed')
   }
 })
+
+export const postPriceListByIdThunk = createAsyncThunk<
+  PriceListItem,
+  { priceListId: string; body: RequestNewCountyPrice },
+  { rejectValue: string }
+>('prices/postCountyPrice', async (params, { rejectWithValue }) => {
+  try {
+    const { priceListId, body } = params
+
+    const { data } = await http.post<PriceListItem>(
+      `/price-lists/${priceListId}/items`,
+      body,
+    )
+
+    return data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        error.response?.data?.message || error.message || 'post failed'
+      return rejectWithValue(message)
+    }
+    return rejectWithValue('post failed')
+  }
+})
+
+// export const fetchPriceListItem
 
 // export const getPriceByIdThunk = createAsyncThunk<
 //   PriseListId,
