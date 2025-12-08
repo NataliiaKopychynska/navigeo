@@ -136,6 +136,26 @@ export const postPriceListByIdThunk = createAsyncThunk<
   }
 })
 
+export const updatePriceListByIdThunk = createAsyncThunk<
+  PriceListItem,
+  { priceListId: string; priceListItemId: string; body: RequestNewCountyPrice },
+  { rejectValue: string }
+>(
+  'prices/updatePriceListItem',
+  async ({ priceListId, priceListItemId, body }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put<PriceListItem>(
+        `/api/price-lists/${priceListId}/items/${priceListItemId}`,
+        body,
+      )
+      return response.data
+    } catch (err: any) {
+      console.error(err)
+      return rejectWithValue(err.response?.data || 'Błąd podczas aktualizacji')
+    }
+  },
+)
+
 // export const fetchPriceListItem
 
 // export const getPriceByIdThunk = createAsyncThunk<

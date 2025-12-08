@@ -1,43 +1,54 @@
-import React from 'react'
 import type { PriceListItem } from '../../../../../../redux/price/priceType'
 import ButtonLink from '../../../../../atoms/ButtonLink'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 import MenuHover from '../../../../../atoms/MenuHover'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
 type Props = {
   selectedPriceList: PriceListItem[]
-  onClick: () => void
-  isOpenEditPanel: boolean
+  onEdit: (item: PriceListItem) => void
+  onDelete: (item: PriceListItem) => void
+
+  openMenuForId: string | null
+  toggleMenu: (id: string) => void
 }
 
-function BodyTable({ selectedPriceList, onClick, isOpenEditPanel }: Props) {
+function BodyTable({
+  selectedPriceList,
+  onEdit,
+  onDelete,
+  openMenuForId,
+  toggleMenu,
+}: Props) {
   return (
     <tbody>
       {selectedPriceList.length === 0 ? (
         <tr>
-          <td colSpan={3} className="text-center py-4">
-            Dodaj pierwszą miejscowość
+          <td colSpan={3} className="py-6 text-center text-gray-500">
+            Brak danych
           </td>
         </tr>
       ) : (
         selectedPriceList.map((item) => (
           <tr
             key={item.id}
-            className="grid grid-cols-3 border-b  border-gray-300 "
+            className="grid grid-cols-3 border-b border-gray-300 text-sm"
           >
-            <td className="text-gray-600 p-2 border-r border-gray-300 font-light">
-              {item.county.name}
+            <td className="border-r border-gray-300 p-2">{item.county.name}</td>
+
+            <td className="border-r border-gray-300 p-2">
+              {(item.basePrice.grossPrice.amount / 100).toFixed(2)} zł
             </td>
-            <td className="text-gray-600 p-2 border-r border-gray-300 font-light">
-              {item.basePrice.grossPrice.amount}
-            </td>
-            <td className="flex justify-between text-gray-600 p-2 border-r border-gray-300 font-light">
-              {item.additionalPrice.grossPrice.amount}
-              <ButtonLink tittle={<BsThreeDotsVertical />} onClick={onClick} />
-              {isOpenEditPanel && (
+
+            <td className="relative border-r border-gray-300 p-2 flex justify-between">
+              {(item.additionalPrice.grossPrice.amount / 100).toFixed(2)} zł
+              <ButtonLink
+                tittle={<BsThreeDotsVertical />}
+                onClick={() => toggleMenu(item.id)}
+              />
+              {openMenuForId === item.id && (
                 <MenuHover
-                  onDelete={console.log('Delite')}
-                  onEdit={console.log('edit')}
+                  onEdit={() => onEdit(item)}
+                  onDelete={() => onDelete(item)}
                 />
               )}
             </td>

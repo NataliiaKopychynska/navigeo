@@ -13,8 +13,13 @@ import AddModal from './AddModal'
 import { useForm } from 'react-hook-form'
 import { fetchCounties } from '../../../../../../api/admin/counties'
 import { useDispatch } from 'react-redux'
-import { postPriceListByIdThunk } from '../../../../../../redux/price/priseThunk'
+import {
+  postPriceListByIdThunk,
+  updatePriceListByIdThunk,
+} from '../../../../../../redux/price/priseThunk'
 import type { AppDispatch } from '../../../../../../redux/store'
+import ModalEditRow from './ModalEditRow'
+import ModalDeleteRow from './ModalDeleteRow'
 
 type Props = {
   selectedPriceList: PriceListItem[]
@@ -33,8 +38,29 @@ function PriceTable({ selectedPriceList }: Props) {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false)
 
   const [isOpenEditPanel, setIsOpenEditPanel] = useState(false)
+
   const [selectedCountyId, setSelectedCountyId] = useState<string | null>(null)
   const [counties, setCounties] = useState<County[]>([])
+
+  const [openMenuForId, setOpenMenuForId] = useState<string | null>(null)
+  const toggleMenu = (id: string) => {
+    setOpenMenuForId((prev) => (prev === id ? null : id))
+  }
+
+  const [EditRowModalOpen, setEditRowModalOpen] = useState(false)
+  const [DeleteRowModalOpen, setDeleteRowModalOpen] = useState(false)
+  const [currentRow, setCurrentRow] = useState<PriceListItem | null>(null)
+  // const [currentRowId, setCurrentRowId] = useState<string | null>(null)
+
+  const handleEditRow = (item: PriceListItem) => {
+    setCurrentRow(item)
+    setEditRowModalOpen(true)
+  }
+
+  const handleDeleteRow = (item: PriceListItem) => {
+    setCurrentRow(item)
+    setDeleteRowModalOpen(true)
+  }
 
   const wrapperRef = useRef(null)
 
@@ -91,6 +117,12 @@ function PriceTable({ selectedPriceList }: Props) {
     // setPage(1)
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsOpenEditPanel(false)
+    }, 3000)
+  }, [])
+
   return (
     <div className=" flex flex-col mt-[40px] ">
       <table>
@@ -101,8 +133,10 @@ function PriceTable({ selectedPriceList }: Props) {
         />
         <BodyTable
           selectedPriceList={selectedPriceList}
-          onClick={() => setIsOpenEditPanel(true)}
-          isOpenEditPanel={isOpenEditPanel}
+          openMenuForId={openMenuForId}
+          toggleMenu={toggleMenu}
+          onEdit={handleEditRow}
+          onDelete={handleDeleteRow}
         />
       </table>
       <div className="flex relative justify-between   w-full">
@@ -123,6 +157,33 @@ function PriceTable({ selectedPriceList }: Props) {
           selected={selectedCountyId}
           setSelected={(value: string) => setSelectedCountyId(value)}
           wrapperRef={wrapperRef}
+        />
+      )}
+      {EditRowModalOpen && (
+        <ModalEditRow
+          rowData={currentRow!}
+          onClose={() => setEditRowModalOpen(false)}
+          onSubmit={(values) => {
+            console.log('Wysyłam do API:', values)
+            dispatch(
+              updatePriceListByIdThunk({
+                priceListId: paramsID.priceID!,
+                priceListItemId: currentRow!.id,
+                body: {
+                  countyId: currentRow!.county.id, // ← додаємо ОБОВʼЯЗКОВО
+                  basePrice: values.basePrice * 100,
+                  additionalPrice: values.additionalPrice * 100,
+                },
+              }),
+            )
+            setEditRowModalOpen(false)
+          }}
+        />
+      )}
+      {DeleteRowModalOpen && (
+        <ModalDeleteRow
+          rowData={currentRow}
+          onClose={() => setDeleteRowModalOpen(false)}
         />
       )}
     </div>

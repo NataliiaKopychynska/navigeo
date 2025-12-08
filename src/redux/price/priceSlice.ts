@@ -8,6 +8,7 @@ import {
   replaceTabPriceById,
   deletePriceThunk,
   postPriceListByIdThunk,
+  updatePriceListByIdThunk,
 } from './priseThunk'
 
 const initialState: PriceState = {
@@ -101,6 +102,20 @@ const priceSlice = createSlice({
         state.selectedPriceList.push(action.payload)
       })
       .addCase(postPriceListByIdThunk.rejected, handleRejected)
+      .addCase(updatePriceListByIdThunk.pending, handlePending)
+      .addCase(updatePriceListByIdThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+
+        const updatedItem = action.payload
+        const index = state.selectedPriceList.findIndex(
+          (item) => item.id === updatedItem.id,
+        )
+
+        if (index !== -1) {
+          state.selectedPriceList[index] = updatedItem
+        }
+      })
+      .addCase(updatePriceListByIdThunk.rejected, handleRejected)
     //   .addCase(_.pending, handlePending)
     //   .addCase(_.fulfilled, (state, action) => {
     //     state.status = 'succeeded'
