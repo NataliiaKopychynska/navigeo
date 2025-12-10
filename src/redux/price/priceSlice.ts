@@ -9,6 +9,7 @@ import {
   deletePriceThunk,
   postPriceListByIdThunk,
   updatePriceListByIdThunk,
+  deletePriceListByIdThunk,
 } from './priseThunk'
 
 const initialState: PriceState = {
@@ -116,6 +117,14 @@ const priceSlice = createSlice({
         }
       })
       .addCase(updatePriceListByIdThunk.rejected, handleRejected)
+      .addCase(deletePriceListByIdThunk.pending, handlePending)
+      .addCase(deletePriceListByIdThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        const index = state.selectedPriceList.filter(
+          (item) => item.id !== action.payload,
+        )
+      })
+      .addCase(deletePriceListByIdThunk.rejected, handleRejected)
     //   .addCase(_.pending, handlePending)
     //   .addCase(_.fulfilled, (state, action) => {
     //     state.status = 'succeeded'

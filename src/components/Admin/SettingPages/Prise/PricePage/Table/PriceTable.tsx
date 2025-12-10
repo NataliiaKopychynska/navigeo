@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux'
 import {
   postPriceListByIdThunk,
   updatePriceListByIdThunk,
+  deletePriceListByIdThunk,
 } from '../../../../../../redux/price/priseThunk'
 import type { AppDispatch } from '../../../../../../redux/store'
 import ModalEditRow from './ModalEditRow'
@@ -164,18 +165,18 @@ function PriceTable({ selectedPriceList }: Props) {
           rowData={currentRow!}
           onClose={() => setEditRowModalOpen(false)}
           onSubmit={(values) => {
-            console.log('Wysyłam do API:', values)
             dispatch(
               updatePriceListByIdThunk({
                 priceListId: paramsID.priceID!,
                 priceListItemId: currentRow!.id,
                 body: {
-                  countyId: currentRow!.county.id, // ← додаємо ОБОВʼЯЗКОВО
+                  countyId: currentRow!.county.id,
                   basePrice: values.basePrice * 100,
                   additionalPrice: values.additionalPrice * 100,
                 },
               }),
             )
+
             setEditRowModalOpen(false)
           }}
         />
@@ -184,6 +185,15 @@ function PriceTable({ selectedPriceList }: Props) {
         <ModalDeleteRow
           rowData={currentRow}
           onClose={() => setDeleteRowModalOpen(false)}
+          onConfirm={() => {
+            dispatch(
+              deletePriceListByIdThunk({
+                priceListId: paramsID.priceID!,
+                priceListItemId: currentRow!.id,
+              }),
+            )
+            setDeleteRowModalOpen(false)
+          }}
         />
       )}
     </div>

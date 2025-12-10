@@ -144,11 +144,29 @@ export const updatePriceListByIdThunk = createAsyncThunk<
   'prices/updatePriceListItem',
   async ({ priceListId, priceListItemId, body }, { rejectWithValue }) => {
     try {
-      const response = await axios.put<PriceListItem>(
-        `/api/price-lists/${priceListId}/items/${priceListItemId}`,
+      const response = await http.put<PriceListItem>(
+        `/price-lists/${priceListId}/items/${priceListItemId}`,
         body,
       )
       return response.data
+    } catch (err: any) {
+      console.error(err)
+      return rejectWithValue(err.response?.data || 'Błąd podczas aktualizacji')
+    }
+  },
+)
+
+export const deletePriceListByIdThunk = createAsyncThunk<
+  string,
+  { priceListId: string; priceListItemId: string },
+  { rejectValue: string }
+>(
+  'prices/deletePriceListItem',
+  async ({ priceListId, priceListItemId }, { rejectWithValue }) => {
+    try {
+      await http.delete(`/price-lists/${priceListId}/items/${priceListItemId}`)
+      // return response.data
+      return priceListItemId
     } catch (err: any) {
       console.error(err)
       return rejectWithValue(err.response?.data || 'Błąd podczas aktualizacji')
