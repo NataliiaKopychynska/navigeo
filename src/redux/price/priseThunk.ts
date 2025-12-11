@@ -4,7 +4,6 @@ import type {
   FetchData,
   PriceType,
   EditRequestPriceTab,
-  PriseListId,
   RequestNewCountyPrice,
   PriceListItem,
 } from './priceType'

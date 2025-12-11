@@ -72,6 +72,33 @@ function PriceTable({ selectedPriceList }: Props) {
     extra_price: 0,
   })
 
+  const [filteredList, setFilteredList] =
+    useState<PriceListItem[]>(selectedPriceList)
+
+  useEffect(() => {
+    let list = [...selectedPriceList]
+
+    if (filters.localization.trim() !== '') {
+      list = list.filter((item) =>
+        item.county.name
+          .toLowerCase()
+          .includes(filters.localization.toLowerCase()),
+      )
+    }
+
+    if (filters.basic_prise > 0) {
+      list = list.filter((item) => item.basePrice / 100 >= filters.basic_prise)
+    }
+
+    if (filters.extra_price > 0) {
+      list = list.filter(
+        (item) => item.additionalPrice / 100 >= filters.extra_price,
+      )
+    }
+
+    setFilteredList(list)
+  }, [filters, selectedPriceList])
+
   useEffect(() => {
     async function load() {
       const data = await fetchCounties()
@@ -133,7 +160,7 @@ function PriceTable({ selectedPriceList }: Props) {
           setFiltersFunction={setFiltersFunction}
         />
         <BodyTable
-          selectedPriceList={selectedPriceList}
+          selectedPriceList={filteredList}
           openMenuForId={openMenuForId}
           toggleMenu={toggleMenu}
           onEdit={handleEditRow}
@@ -191,7 +218,8 @@ function PriceTable({ selectedPriceList }: Props) {
                 priceListId: paramsID.priceID!,
                 priceListItemId: currentRow!.id,
               }),
-            )
+            ).unwrap()
+
             setDeleteRowModalOpen(false)
           }}
         />

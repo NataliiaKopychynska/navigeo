@@ -41,7 +41,6 @@ const priceSlice = createSlice({
           )
           state.priceList[type] = filteredData
         }
-        // console.log(current(state))
       })
       .addCase(fetchPricesThunk.rejected, handleRejected)
       .addCase(postPriceThunk.pending, handlePending)
@@ -108,21 +107,25 @@ const priceSlice = createSlice({
         state.status = 'succeeded'
 
         const updatedItem = action.payload
-        const index = state.selectedPriceList.findIndex(
-          (item) => item.id === updatedItem.id,
-        )
+        if (state.selectedPriceList) {
+          const index = state.selectedPriceList.findIndex(
+            (item) => item.id === updatedItem.id,
+          )
 
-        if (index !== -1) {
-          state.selectedPriceList[index] = updatedItem
+          if (index !== -1) {
+            state.selectedPriceList[index] = updatedItem
+          }
         }
       })
       .addCase(updatePriceListByIdThunk.rejected, handleRejected)
       .addCase(deletePriceListByIdThunk.pending, handlePending)
       .addCase(deletePriceListByIdThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        const index = state.selectedPriceList.filter(
-          (item) => item.id !== action.payload,
-        )
+        if (state.selectedPriceList) {
+          state.selectedPriceList = state.selectedPriceList.filter(
+            (item) => item.id !== action.payload,
+          )
+        }
       })
       .addCase(deletePriceListByIdThunk.rejected, handleRejected)
     //   .addCase(_.pending, handlePending)
